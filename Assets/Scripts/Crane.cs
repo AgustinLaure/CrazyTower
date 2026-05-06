@@ -4,10 +4,12 @@ using UnityEngine.InputSystem;
 public class Crane : MonoBehaviour
 {
     private const float epsilon = 1e-5f;
-    [SerializeField] private float speed;
+    [SerializeField] private float pendulumAngle;
     [SerializeField] private Rigidbody rb;
     private bool isSwinging;
     private int pendulumPushDir = 1;
+
+    private const float minLinearToAccel = 0.9f;
     private void Update()
     {
 
@@ -25,7 +27,7 @@ public class Crane : MonoBehaviour
 
     private void PushPendulum()
     {
-        rb.AddRelativeForce(Vector3.right * speed, ForceMode.Acceleration);
+        rb.AddRelativeForce(Vector3.right * pendulumAngle, ForceMode.Acceleration);
         Debug.Log("lineal" + rb.linearVelocity);
         Debug.Log(" angular" + rb.angularVelocity);
         isSwinging = true;
@@ -34,11 +36,11 @@ public class Crane : MonoBehaviour
     {
         if (isSwinging)
         {
-           //if (!(rb.linearVelocity.x < 0 + epsilon && pendulumPushDir < 0 + epsilon))
-           //{
-           //    rb.AddRelativeForce(Vector3.right * (speed * pendulumPushDir), ForceMode.Acceleration);
-           //    pendulumPushDir *= -1;
-           //}
+           if (rb.linearVelocity.x < -minLinearToAccel && pendulumPushDir > 0 || rb.linearVelocity.x > minLinearToAccel && pendulumPushDir < 0)
+           {
+               rb.AddForce(Vector3.left * (pendulumAngle * pendulumPushDir), ForceMode.Acceleration);
+               pendulumPushDir *= -1;
+           }
         }
     }
 }
