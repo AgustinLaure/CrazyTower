@@ -4,6 +4,10 @@ using UnityEngine.InputSystem;
 public class Crane : MonoBehaviour
 {
     private const float epsilon = 1e-5f;
+
+    [SerializeField] private FloorModule currentFloor;
+
+    //As the force applied when linearVelocity.x reaches 0 with a margin of minLinearToAccel
     [SerializeField] private float pendulumAngle;
     [SerializeField] private Rigidbody rb;
     private bool isSwinging;
@@ -12,7 +16,10 @@ public class Crane : MonoBehaviour
     private const float minLinearToAccel = 0.9f;
     private void Update()
     {
-
+        if (Input.GetKey(KeyCode.L))
+        {
+            DropFloor();
+        }
     }
 
     private void FixedUpdate()
@@ -25,6 +32,11 @@ public class Crane : MonoBehaviour
 
     }
 
+    private void DropFloor()
+    {
+        currentFloor.transform.SetParent(null);
+        currentFloor.GetComponent<HingeJoint>().connectedBody = null;
+    }
     private void PushPendulum()
     {
         rb.AddRelativeForce(Vector3.right * pendulumAngle, ForceMode.Acceleration);
@@ -43,4 +55,5 @@ public class Crane : MonoBehaviour
            }
         }
     }
+    
 }
