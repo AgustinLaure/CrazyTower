@@ -10,12 +10,6 @@ public class GameManager : MonoBehaviour
         ui.OnExit += OnExit;
     }
 
-    private void OnDestroy()
-    {
-        ui.OnPlay -= OnPlay;
-        ui.OnExit -= OnExit;
-    }
-
     void Update()
     {
 
@@ -33,5 +27,10 @@ public class GameManager : MonoBehaviour
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
 #endif
+    }
+    private void OnDisable()
+    {
+        ui.OnPlay -= OnPlay;
+        ui.OnExit -= OnExit;
     }
 }

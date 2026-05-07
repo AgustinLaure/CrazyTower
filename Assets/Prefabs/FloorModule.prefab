@@ -127,6 +127,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05d3dc156f886574ab98f7e84c1c9de3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FloorModule
+  joint: {fileID: 1345545437013984326}
 --- !u!54 &1074113818934622040
 Rigidbody:
   m_ObjectHideFlags: 0

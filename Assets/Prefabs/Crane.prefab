@@ -258,13 +258,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 851d4be4ff4aafa4d87af4c86c70660c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Crane
-  currentFloor: {fileID: 0}
+  level: {fileID: 0}
   swingSpeed: 300
   forceMode: 2
-  pendulumAngle: 15
+  floorSpawnPoint: {fileID: 1052638271540396649}
   pivotTransform: {fileID: 2730658073272935089}
   wireTransform: {fileID: 7569847418316887413}
-  rb: {fileID: 7560643290237220425}
+  wireRb: {fileID: 7560643290237220425}
+  pendulumAngle: 15
 --- !u!1 &8125058426535130992
 GameObject:
   m_ObjectHideFlags: 0
