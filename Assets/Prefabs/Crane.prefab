@@ -29,12 +29,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3039203735597686961}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: 0.0000011771916, z: -0, w: 1}
+  m_LocalRotation: {x: -0, y: 0.0000009834765, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: -1.008, z: 0}
-  m_LocalScale: {x: 0.18627177, y: 2.0675974, z: 0.078780636}
+  m_LocalScale: {x: 0.18627173, y: 2.0675974, z: 0.078780614}
   m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 2730658073272935089}
+  m_Children:
+  - {fileID: 1052638271540396649}
+  m_Father: {fileID: 3539572224886786046}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &368765970552054792
 MeshFilter:
@@ -136,7 +137,7 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 56
@@ -180,6 +181,37 @@ HingeJoint:
   m_EnablePreprocessing: 1
   m_MassScale: 1
   m_ConnectedMassScale: 1
+--- !u!1 &6410461229898996630
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1052638271540396649}
+  m_Layer: 0
+  m_Name: FloorSpawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1052638271540396649
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6410461229898996630}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.387, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7569847418316887413}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7479070931616219341
 GameObject:
   m_ObjectHideFlags: 0
@@ -210,6 +242,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 7569847418316887413}
   - {fileID: 2730658073272935089}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -225,6 +258,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 851d4be4ff4aafa4d87af4c86c70660c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Crane
+  currentFloor: {fileID: 0}
   pendulumAngle: 100
   rb: {fileID: 7560643290237220425}
 --- !u!1 &8125058426535130992
@@ -256,8 +290,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.99999976, y: 1, z: 0.99999976}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 7569847418316887413}
+  m_Children: []
   m_Father: {fileID: 3539572224886786046}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &6673029142243930963

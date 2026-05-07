@@ -29,13 +29,28 @@ public class Crane : MonoBehaviour
         {
             PushPendulum();
         }
-
     }
 
     private void DropFloor()
     {
+        Rigidbody floorRb = currentFloor.GetComponent<Rigidbody>();
+        Vector3 linearVel = floorRb.linearVelocity;
+        Vector3 angularVel = floorRb.angularVelocity;
+
         currentFloor.transform.SetParent(null);
-        currentFloor.GetComponent<HingeJoint>().connectedBody = null;
+        currentFloor.GetComponent<ConfigurableJoint>().connectedBody = null;
+        currentFloor.GetComponent<ConfigurableJoint>().xMotion = ConfigurableJointMotion.Free;
+        currentFloor.GetComponent<ConfigurableJoint>().yMotion = ConfigurableJointMotion.Free;
+        currentFloor.GetComponent<ConfigurableJoint>().zMotion = ConfigurableJointMotion.Free;
+
+        currentFloor.GetComponent<ConfigurableJoint>().angularXMotion = ConfigurableJointMotion.Free;
+        currentFloor.GetComponent<ConfigurableJoint>().angularYMotion = ConfigurableJointMotion.Free;
+        currentFloor.GetComponent<ConfigurableJoint>().angularZMotion = ConfigurableJointMotion.Limited;
+
+        
+
+        //floorRb.linearVelocity = linearVel;
+        //floorRb.angularVelocity = angularVel;
     }
     private void PushPendulum()
     {
