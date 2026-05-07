@@ -34,23 +34,25 @@ public class Crane : MonoBehaviour
     private void DropFloor()
     {
         Rigidbody floorRb = currentFloor.GetComponent<Rigidbody>();
-        Vector3 linearVel = floorRb.linearVelocity;
-        Vector3 angularVel = floorRb.angularVelocity;
+        ConfigurableJoint floorJoint = currentFloor.GetComponent<ConfigurableJoint>();
 
         currentFloor.transform.SetParent(null);
-        currentFloor.GetComponent<ConfigurableJoint>().connectedBody = null;
-        currentFloor.GetComponent<ConfigurableJoint>().xMotion = ConfigurableJointMotion.Free;
-        currentFloor.GetComponent<ConfigurableJoint>().yMotion = ConfigurableJointMotion.Free;
-        currentFloor.GetComponent<ConfigurableJoint>().zMotion = ConfigurableJointMotion.Free;
 
-        currentFloor.GetComponent<ConfigurableJoint>().angularXMotion = ConfigurableJointMotion.Free;
-        currentFloor.GetComponent<ConfigurableJoint>().angularYMotion = ConfigurableJointMotion.Free;
-        currentFloor.GetComponent<ConfigurableJoint>().angularZMotion = ConfigurableJointMotion.Limited;
+        //Sets connectedBody as the world itself
+        floorJoint.connectedBody = null;
 
-        
+        UnlockFloorMotion(floorJoint);
+    }
 
-        //floorRb.linearVelocity = linearVel;
-        //floorRb.angularVelocity = angularVel;
+    private void UnlockFloorMotion(ConfigurableJoint floorJoint)
+    {
+        floorJoint.xMotion = ConfigurableJointMotion.Free;
+        floorJoint.yMotion = ConfigurableJointMotion.Free;
+        floorJoint.zMotion = ConfigurableJointMotion.Free;
+
+        floorJoint.angularXMotion = ConfigurableJointMotion.Free;
+        floorJoint.angularYMotion = ConfigurableJointMotion.Free;
+        floorJoint.angularZMotion = ConfigurableJointMotion.Limited;
     }
     private void PushPendulum()
     {
