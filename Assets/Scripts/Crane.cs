@@ -3,32 +3,56 @@ using UnityEngine.InputSystem;
 
 public class Crane : MonoBehaviour
 {
-    private const float epsilon = 1e-5f;
-
     [SerializeField] private FloorModule currentFloor;
+    [SerializeField] private float swingSpeed;
+    [SerializeField] private ForceMode forceMode;
 
-    //As the force applied when linearVelocity.x reaches 0 with a margin of minLinearToAccel
+    //In degrees
     [SerializeField] private float pendulumAngle;
+    private float distanceToLoopingPoint;
+
+    [SerializeField] private Transform pivotTransform;
+    [SerializeField] private Transform wireTransform;
+
     [SerializeField] private Rigidbody rb;
     private bool isSwinging;
-    private int pendulumPushDir = 1;
+    private bool push;
 
-    private const float minLinearToAccel = 0.9f;
+    private const float maxPendulumAngle = 90f;
+
+    private void Awake()
+    {
+        push = false;
+        float pivotWireDistY = Mathf.Abs(pivotTransform.transform.position.y - wireTransform.transform.position.y);
+
+        distanceToLoopingPoint = pendulumAngle * pivotWireDistY / maxPendulumAngle;
+    }
     private void Update()
     {
         if (Input.GetKey(KeyCode.L))
         {
             DropFloor();
         }
-    }
 
-    private void FixedUpdate()
-    {
-        Swing();
         if (Input.GetKey(KeyCode.K))
         {
-            PushPendulum();
+            push = true;
         }
+        else
+        {
+            push = false;
+        }
+       
+    }
+    private void FixedUpdate()
+    {
+        if (push)
+        {
+            PushPendulum();
+            push = false;
+        }
+
+        Swing();
     }
 
     private void DropFloor()
@@ -56,21 +80,30 @@ public class Crane : MonoBehaviour
     }
     private void PushPendulum()
     {
-        rb.AddRelativeForce(Vector3.right * pendulumAngle, ForceMode.Acceleration);
-        Debug.Log("lineal" + rb.linearVelocity);
-        Debug.Log(" angular" + rb.angularVelocity);
+        rb.AddRelativeForce(Vector3.right * swingSpeed, forceMode);
         isSwinging = true;
     }
     private void Swing()
     {
         if (isSwinging)
         {
-           if (rb.linearVelocity.x < -minLinearToAccel && pendulumPushDir > 0 || rb.linearVelocity.x > minLinearToAccel && pendulumPushDir < 0)
-           {
-               rb.AddForce(Vector3.left * (pendulumAngle * pendulumPushDir), ForceMode.Acceleration);
-               pendulumPushDir *= -1;
-           }
+            float wireRightProjMagnitude = Vector3.Dot(transform.right, wireTransform.position);
+            float pivotRightProjMagnitude = Vector3.Dot(transform.right, pivotTransform.position);
+
+            float pivotWireRightDistance = wireRightProjMagnitude - pivotRightProjMagnitude;
+
+            if (pivotWireRightDistance > distanceToLoopingPoint)
+            {
+                rb.linearVelocity = Vector3.zero;
+                rb.AddRelativeForce(-Vector3.right * swingSpeed, forceMode);
+                Debug.Log("lineal" + rb.linearVelocity);
+            }
+            else if (pivotWireRightDistance < -distanceToLoopingPoint)
+            {
+                rb.linearVelocity = Vector3.zero;
+                rb.AddRelativeForce(Vector3.right * swingSpeed, forceMode);
+                Debug.Log("lineal" + rb.linearVelocity);
+            }
         }
     }
-    
 }

@@ -332,13 +332,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1087784213}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.21, y: -0.29, z: 0.16}
+  m_LocalRotation: {x: 0.111858666, y: -0, z: -0, w: 0.99372417}
+  m_LocalPosition: {x: 3.164, y: -0.908, z: 0.16}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 12.845, y: 0, z: 0}
 --- !u!114 &1087784217
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -409,7 +409,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1074113818934622040, guid: 1efbcf4ed1bcced4f9d122b9a63f22ac, type: 3}
       propertyPath: m_Mass
-      value: 1
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 1345545437013984326, guid: 1efbcf4ed1bcced4f9d122b9a63f22ac, type: 3}
       propertyPath: m_XMotion
@@ -445,7 +445,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1345545437013984326, guid: 1efbcf4ed1bcced4f9d122b9a63f22ac, type: 3}
       propertyPath: m_AngularZLimit.limit
-      value: 45
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 1345545437013984326, guid: 1efbcf4ed1bcced4f9d122b9a63f22ac, type: 3}
       propertyPath: m_AutoConfigureConnectedAnchor
@@ -532,7 +532,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1576860740}
   serializedVersion: 5
-  m_Mass: 1
+  m_Mass: 1000
   m_LinearDamping: 0
   m_AngularDamping: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -638,8 +638,8 @@ Transform:
   m_GameObject: {fileID: 1576860740}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.15113, y: -3.7, z: 3.35229}
-  m_LocalScale: {x: 10.352598, y: 1.7849, z: 7.3855596}
+  m_LocalPosition: {x: 3.18, y: -2.81, z: 3.19}
+  m_LocalScale: {x: 0.6210246, y: 1.7849, z: 0.74803174}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -673,12 +673,24 @@ PrefabInstance:
       value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 2845923305848240092, guid: 0faab89e82c3ad942867754dba3260fc, type: 3}
+      propertyPath: forceMode
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2845923305848240092, guid: 0faab89e82c3ad942867754dba3260fc, type: 3}
+      propertyPath: swingSpeed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2845923305848240092, guid: 0faab89e82c3ad942867754dba3260fc, type: 3}
       propertyPath: currentFloor
       value: 
       objectReference: {fileID: 1179194760}
+    - target: {fileID: 2845923305848240092, guid: 0faab89e82c3ad942867754dba3260fc, type: 3}
+      propertyPath: pendulumAngle
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 3539572224886786046, guid: 0faab89e82c3ad942867754dba3260fc, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 3.23428
+      value: 3.18
       objectReference: {fileID: 0}
     - target: {fileID: 3539572224886786046, guid: 0faab89e82c3ad942867754dba3260fc, type: 3}
       propertyPath: m_LocalPosition.y
@@ -738,7 +750,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7560643290237220425, guid: 0faab89e82c3ad942867754dba3260fc, type: 3}
       propertyPath: m_UseGravity
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
