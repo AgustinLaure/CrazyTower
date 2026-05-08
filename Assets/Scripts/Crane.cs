@@ -1,5 +1,4 @@
 using UnityEngine;
-
 public class Crane : MonoBehaviour
 {
     [SerializeField] private Level level;

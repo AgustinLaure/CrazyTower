@@ -30,7 +30,7 @@ public class Tower : MonoBehaviour
 
         Rigidbody floorRb = floor.GetComponent<Rigidbody>();
 
-        floorRb.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
+        floorRb.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezePositionY;
 
         FixFloorPos(floor);
         AdjustPerfect(floor);
