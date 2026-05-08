@@ -15,9 +15,9 @@ GameObject:
   - component: {fileID: 4899233029434008918}
   - component: {fileID: 1074113818934622040}
   - component: {fileID: 1345545437013984326}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: FloorModule
-  m_TagString: Untagged
+  m_TagString: FloorModule
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -31,7 +31,7 @@ Transform:
   m_GameObject: {fileID: 5041295753351950482}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.00000023841858, z: -0, w: 1}
-  m_LocalPosition: {x: -0.001860141, y: -1.9446216, z: -0.0015800009}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.58988, y: 0.58988, z: 0.58988005}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -128,6 +128,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FloorModule
   joint: {fileID: 1345545437013984326}
+  rb: {fileID: 0}
 --- !u!54 &1074113818934622040
 Rigidbody:
   m_ObjectHideFlags: 0

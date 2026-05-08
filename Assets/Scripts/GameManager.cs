@@ -10,11 +10,6 @@ public class GameManager : MonoBehaviour
         ui.OnExit += OnExit;
     }
 
-    void Update()
-    {
-
-    }
-
     private void OnPlay()
     {
         SceneManager.LoadScene("Gameplay");

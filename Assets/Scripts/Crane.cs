@@ -1,6 +1,4 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.Rendering;
 
 public class Crane : MonoBehaviour
 {
@@ -38,20 +36,15 @@ public class Crane : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKey(KeyCode.L))
+        if (Input.GetKeyDown(KeyCode.L))
         {
             DropFloor();
         }
 
-        if (Input.GetKey(KeyCode.K))
+        if (Input.GetKeyDown(KeyCode.K))
         {
             push = true;
         }
-        else
-        {
-            push = false;
-        }
-
     }
     private void FixedUpdate()
     {
@@ -69,6 +62,7 @@ public class Crane : MonoBehaviour
         wireRb.AddRelativeForce(Vector3.right * swingSpeed, forceMode);
         isSwinging = true;
     }
+
     private void Swing()
     {
         if (isSwinging)
@@ -82,13 +76,11 @@ public class Crane : MonoBehaviour
             {
                 wireRb.linearVelocity = Vector3.zero;
                 wireRb.AddRelativeForce(-Vector3.right * swingSpeed, forceMode);
-                Debug.Log("lineal" + wireRb.linearVelocity);
             }
             else if (pivotWireRightDistance < -distanceToLoopingPoint)
             {
                 wireRb.linearVelocity = Vector3.zero;
                 wireRb.AddRelativeForce(Vector3.right * swingSpeed, forceMode);
-                Debug.Log("lineal" + wireRb.linearVelocity);
             }
         }
     }
