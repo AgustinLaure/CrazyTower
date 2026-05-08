@@ -263,8 +263,7 @@ MonoBehaviour:
   forceMode: 2
   floorSpawnPoint: {fileID: 1052638271540396649}
   pivotTransform: {fileID: 2730658073272935089}
-  wireTransform: {fileID: 7569847418316887413}
-  wireRb: {fileID: 7560643290237220425}
+  wire: {fileID: 3039203735597686961}
   pendulumAngle: 15
 --- !u!1 &8125058426535130992
 GameObject:

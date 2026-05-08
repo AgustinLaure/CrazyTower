@@ -4,10 +4,14 @@ public class Crane : MonoBehaviour
     [SerializeField] private Level level;
     [SerializeField] private float swingSpeed;
     [SerializeField] private ForceMode forceMode;
+
     [SerializeField] private Transform floorSpawnPoint;
     [SerializeField] private Transform pivotTransform;
-    [SerializeField] private Transform wireTransform;
-    [SerializeField] private Rigidbody wireRb;
+
+    [SerializeField] private GameObject wire;
+
+    private Transform wireTransform;
+    private Rigidbody wireRb;
 
     private FloorModule currentFloor;
 
@@ -22,6 +26,9 @@ public class Crane : MonoBehaviour
 
     private void Awake()
     {
+        wireTransform = wire.GetComponent<Transform>();
+        wireRb = wire.GetComponent<Rigidbody>();
+
         push = false;
         float pivotWireDistY = Mathf.Abs(pivotTransform.transform.position.y - wireTransform.transform.position.y);
 
@@ -90,6 +97,7 @@ public class Crane : MonoBehaviour
 
         currentFloor.transform.SetParent(transform);
         currentFloor.transform.position = floorSpawnPoint.position;
+        currentFloor.transform.rotation = wireTransform.rotation; 
         currentFloor.SetSnap(wireRb);
     }
     private void DropFloor()
@@ -101,7 +109,7 @@ public class Crane : MonoBehaviour
     {
         AddFloor(floor);
     }
-    private void OnDisable()
+    private void OnDestroy()
     {
         level.OnCreateFloor -= HandleCreateFloor;
     }
