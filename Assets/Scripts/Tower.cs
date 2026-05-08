@@ -6,9 +6,9 @@ public class Tower : MonoBehaviour
 {
     [SerializeField] private List<FloorModule> floors = new List<FloorModule>();
 
-    private const float perfectMarginX = 10f;
+    [SerializeField] private float perfectMarginX = 0.5f;
 
-    public event Action OnAddedFloor;
+    public event Action<bool> OnAddedFloor;
 
     private void Awake()
     {
@@ -24,6 +24,8 @@ public class Tower : MonoBehaviour
     }
     public void AddFloor(FloorModule floor)
     {
+        bool landedPerfect = IsPerfect(floor);
+
         floor.transform.SetParent(transform);
 
         Rigidbody floorRb = floor.GetComponent<Rigidbody>();
@@ -31,6 +33,7 @@ public class Tower : MonoBehaviour
         floorRb.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
 
         FixFloorPos(floor);
+        AdjustPerfect(floor);
 
         floor.SetSnap(floors[^1].GetComponent<Rigidbody>());
 
@@ -39,7 +42,7 @@ public class Tower : MonoBehaviour
         floors.Add(floor);
         floor.OnFloorModuleCollision += HandleFloorCollision;
 
-        OnAddedFloor?.Invoke();
+        OnAddedFloor?.Invoke(true);
     }
 
     private void FixFloorPos(FloorModule floor)
@@ -64,6 +67,22 @@ public class Tower : MonoBehaviour
         if (IsAddable(floor))
         {
             AddFloor(floor);
+        }
+    }
+
+    private bool IsPerfect(FloorModule floor)
+    {
+        return MathF.Abs(floor.transform.position.x - floors[^1].transform.position.x) < perfectMarginX;
+    }
+
+    private void AdjustPerfect(FloorModule floor)
+    {
+        if (IsPerfect(floor))
+        {
+            Vector3 floorPos = floor.transform.position;
+            Vector3 lastFloorPos = floors[^1].transform.position;
+
+            floor.transform.position = new Vector3(lastFloorPos.x, floorPos.y, lastFloorPos.z);
         }
     }
 

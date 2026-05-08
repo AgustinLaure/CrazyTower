@@ -36,7 +36,7 @@ public class Level : MonoBehaviour
         }
     }
 
-    private void HandleFloorSnap()
+    private void HandleFloorSnap(bool isPerfect)
     {
         canCreateFloor = true;
     }
