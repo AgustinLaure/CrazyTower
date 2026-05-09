@@ -103,7 +103,7 @@ public class Crane : MonoBehaviour
     private void DropFloor()
     {
         currentFloor.transform.SetParent(null);
-        currentFloor.SetFalling();
+        currentFloor.SetLanding();
     }
     private void HandleCreateFloor(FloorModule floor)
     {

@@ -18,26 +18,21 @@ public class Tower : MonoBehaviour
         }
     }
 
-    private void Update()
-    {
-        Debug.Log(floors[^1].transform.position);
-    }
     public void AddFloor(FloorModule floor)
     {
         bool landedPerfect = IsPerfect(floor);
 
-        floor.transform.SetParent(transform);
+        floor.transform.SetParent(transform.Find("Floors"));
 
         Rigidbody floorRb = floor.GetComponent<Rigidbody>();
 
-        floorRb.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezePositionY;
-
         FixFloorPos(floor);
+
         AdjustPerfect(floor);
 
         floor.SetSnap(floors[^1].GetComponent<Rigidbody>());
 
-        floorRb.constraints = RigidbodyConstraints.None;
+        floorRb.isKinematic = true;
 
         floors.Add(floor);
         floor.OnFloorModuleCollision += HandleFloorCollision;
@@ -50,29 +45,40 @@ public class Tower : MonoBehaviour
         floor.transform.rotation = Quaternion.identity;
 
         float newFloorHeight = (floor.GetComponent<BoxCollider>().size.y * floor.transform.localScale.y) / 2f;
-        float lastFloorHeight = (floors[^1].GetComponent<BoxCollider>().size.y * floor.transform.localScale.y) / 2f;
+        float lastFloorHeight = (LastFloor.GetComponent<BoxCollider>().size.y * floor.transform.localScale.y) / 2f;
 
         Vector3 newFloorPos = floor.transform.position;
-        Vector3 lastFloorPos = floors[^1].transform.position;
+        Vector3 lastFloorPos = LastFloor.transform.position;
 
         floor.transform.position = new Vector3(newFloorPos.x, lastFloorPos.y + newFloorHeight + lastFloorHeight, newFloorPos.z);
     }
 
     private bool IsAddable(FloorModule floor)
     {
-        return true;
+        return floor.transform.position.y > LastFloor.transform.position.y + LastFloor.ColliderGlobalExtents.y;
+    }
+    private void PushUnaddableFloor(FloorModule floor)
+    {
+        floor.SetFalling();
     }
     private void HandleFloorCollision(FloorModule floor)
     {
         if (IsAddable(floor))
         {
-            AddFloor(floor);
+            if (!floor.IsJointConnected())
+            {
+                AddFloor(floor);
+            }
+        }
+        else
+        {
+            PushUnaddableFloor(floor);
         }
     }
 
     private bool IsPerfect(FloorModule floor)
     {
-        return MathF.Abs(floor.transform.position.x - floors[^1].transform.position.x) < perfectMarginX;
+        return MathF.Abs(floor.transform.position.x - LastFloor.transform.position.x) < perfectMarginX;
     }
 
     private void AdjustPerfect(FloorModule floor)
@@ -80,7 +86,7 @@ public class Tower : MonoBehaviour
         if (IsPerfect(floor))
         {
             Vector3 floorPos = floor.transform.position;
-            Vector3 lastFloorPos = floors[^1].transform.position;
+            Vector3 lastFloorPos = LastFloor.transform.position;
 
             floor.transform.position = new Vector3(lastFloorPos.x, floorPos.y, lastFloorPos.z);
         }
@@ -93,4 +99,5 @@ public class Tower : MonoBehaviour
             floor.OnFloorModuleCollision -= HandleFloorCollision;
         }
     }
+    private FloorModule LastFloor { get { return floors[^1]; } }
 }

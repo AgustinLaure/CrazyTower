@@ -18,9 +18,11 @@ public class FloorModule : MonoBehaviour
         joint.angularXMotion = ConfigurableJointMotion.Locked;
         joint.angularYMotion = ConfigurableJointMotion.Locked;
         joint.angularZMotion = ConfigurableJointMotion.Locked;
+
+        rb.freezeRotation = false;
     }
 
-    public void SetFalling()
+    public void SetLanding()
     {
         //Sets connectedBody as the world itself
         joint.connectedBody = null;
@@ -31,7 +33,29 @@ public class FloorModule : MonoBehaviour
 
         joint.angularXMotion = ConfigurableJointMotion.Free;
         joint.angularYMotion = ConfigurableJointMotion.Free;
-        joint.angularZMotion = ConfigurableJointMotion.Limited;
+        joint.angularZMotion = ConfigurableJointMotion.Free;
+
+        rb.freezeRotation = true;
+    }
+
+    public void SetFalling()
+    {
+        joint.connectedBody = null;
+
+        joint.xMotion = ConfigurableJointMotion.Free;
+        joint.yMotion = ConfigurableJointMotion.Free;
+        joint.zMotion = ConfigurableJointMotion.Free;
+
+        joint.angularXMotion = ConfigurableJointMotion.Free;
+        joint.angularYMotion = ConfigurableJointMotion.Free;
+        joint.angularZMotion = ConfigurableJointMotion.Free;
+
+        rb.freezeRotation = false;
+    }
+
+    public bool IsJointConnected()
+    {
+        return joint.connectedBody != null;
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -44,20 +68,6 @@ public class FloorModule : MonoBehaviour
             }
         }
     }
-    // private void RotateToIdentity()
-    // {
-    //     transform.rotation = Quaternion.identity;
-    //
-    //     float floorHeight = GetComponent<BoxCollider>().bounds.extents.y;
-    //
-    //     //transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.identity, resetRotationSpeed * Time.deltaTime);
-    //     //
-    //     //Debug.Log(transform.rotation.eulerAngles);
-    //     //
-    //     //if (transform.rotation == Quaternion.identity)
-    //     //{
-    //     //    isRotating = false;
-    //     //    OnReadyToSnap?.Invoke();
-    //     //}
-    // }
+    public Vector3 ColliderGlobalSize { get { return GetComponent<BoxCollider>().size * transform.localScale.y; } }
+    public Vector3 ColliderGlobalExtents { get { return (GetComponent<BoxCollider>().size * transform.localScale.y) / 2; } }
 }

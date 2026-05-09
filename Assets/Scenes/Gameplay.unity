@@ -429,7 +429,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2108413639842179315, guid: 3ee3ac43a653cb640958f75b6cdcb0e0, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.235
+      value: -2.252
       objectReference: {fileID: 0}
     - target: {fileID: 2108413639842179315, guid: 3ee3ac43a653cb640958f75b6cdcb0e0, type: 3}
       propertyPath: m_LocalPosition.z
@@ -475,9 +475,45 @@ PrefabInstance:
       propertyPath: 'floors.Array.data[0]'
       value: 
       objectReference: {fileID: 1021767417}
+    - target: {fileID: 7467685189230614258, guid: 3ee3ac43a653cb640958f75b6cdcb0e0, type: 3}
+      propertyPath: m_XMotion
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7467685189230614258, guid: 3ee3ac43a653cb640958f75b6cdcb0e0, type: 3}
+      propertyPath: m_YMotion
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7467685189230614258, guid: 3ee3ac43a653cb640958f75b6cdcb0e0, type: 3}
+      propertyPath: m_ZMotion
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7467685189230614258, guid: 3ee3ac43a653cb640958f75b6cdcb0e0, type: 3}
+      propertyPath: m_AngularXMotion
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7467685189230614258, guid: 3ee3ac43a653cb640958f75b6cdcb0e0, type: 3}
+      propertyPath: m_AngularYMotion
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7467685189230614258, guid: 3ee3ac43a653cb640958f75b6cdcb0e0, type: 3}
+      propertyPath: m_AngularZMotion
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 8415927503505296783, guid: 3ee3ac43a653cb640958f75b6cdcb0e0, type: 3}
       propertyPath: m_Name
       value: Tower
+      objectReference: {fileID: 0}
+    - target: {fileID: 8928068213787010540, guid: 3ee3ac43a653cb640958f75b6cdcb0e0, type: 3}
+      propertyPath: m_Mass
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8928068213787010540, guid: 3ee3ac43a653cb640958f75b6cdcb0e0, type: 3}
+      propertyPath: m_Constraints
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8928068213787010540, guid: 3ee3ac43a653cb640958f75b6cdcb0e0, type: 3}
+      propertyPath: m_IsKinematic
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -530,7 +566,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2845923305848240092, guid: 0faab89e82c3ad942867754dba3260fc, type: 3}
       propertyPath: pendulumAngle
-      value: 30
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 3539572224886786046, guid: 0faab89e82c3ad942867754dba3260fc, type: 3}
       propertyPath: m_LocalPosition.x
@@ -611,7 +647,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1784913975}
   m_Layer: 0
-  m_Name: MovingScenary
+  m_Name: MovableScenary
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -677,7 +713,7 @@ MonoBehaviour:
   floorModulePrefab: {fileID: 4899233029434008918, guid: 1efbcf4ed1bcced4f9d122b9a63f22ac, type: 3}
   crane: {fileID: 1906800466}
   tower: {fileID: 1314582780}
-  movingScenary: {fileID: 1784913974}
+  movableScenary: {fileID: 1784913974}
   scenaryMoveSpeed: 100
 --- !u!4 &1916670574
 Transform:
@@ -703,8 +739,16 @@ PrefabInstance:
     m_TransformParent: {fileID: 1784913975}
     m_Modifications:
     - target: {fileID: 716432130209767283, guid: 842097cef1944a54da6e8bc6091a48a1, type: 3}
+      propertyPath: m_UseGravity
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 716432130209767283, guid: 842097cef1944a54da6e8bc6091a48a1, type: 3}
       propertyPath: m_Constraints
-      value: 126
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 716432130209767283, guid: 842097cef1944a54da6e8bc6091a48a1, type: 3}
+      propertyPath: m_IsKinematic
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4722251816684860598, guid: 842097cef1944a54da6e8bc6091a48a1, type: 3}
       propertyPath: m_Name
