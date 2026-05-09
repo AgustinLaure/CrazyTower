@@ -3,6 +3,9 @@ using UnityEngine;
 
 public class Level : MonoBehaviour
 {
+    public event Action OnTryDropFloor;
+
+    [SerializeField] private PlayerController playerController;
     [SerializeField] private FloorModule floorModulePrefab;
     private FloorModule currentFloor;
     private bool canCreateFloor;
@@ -23,6 +26,7 @@ public class Level : MonoBehaviour
         scenaryMoveDistance = (floorModulePrefab.GetComponent<BoxCollider>().size.y * floorModulePrefab.transform.localScale.y);
 
         tower.OnAddedFloor += HandleFloorSnap;
+        playerController.OnDropFloorRequest += HandleDropFloorRequest;
     }
     private void Update()
     {
@@ -54,8 +58,14 @@ public class Level : MonoBehaviour
         MoveScenary();
         canCreateFloor = true;
     }
+    private void HandleDropFloorRequest()
+    {
+        OnTryDropFloor?.Invoke();
+    }
     private void OnDestroy()
     {
         tower.OnAddedFloor -= HandleFloorSnap;
+        playerController.OnDropFloorRequest -= HandleDropFloorRequest;
     }
+    
 }

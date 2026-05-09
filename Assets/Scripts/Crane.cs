@@ -38,15 +38,11 @@ public class Crane : MonoBehaviour
     private void Start()
     {
         level.OnCreateFloor += HandleCreateFloor;
+        level.OnTryDropFloor += HandleTryDropFloor;
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            DropFloor();
-        }
-
         if (Input.GetKeyDown(KeyCode.K))
         {
             push = true;
@@ -97,20 +93,30 @@ public class Crane : MonoBehaviour
 
         currentFloor.transform.SetParent(transform);
         currentFloor.transform.position = floorSpawnPoint.position;
-        currentFloor.transform.rotation = wireTransform.rotation; 
+        currentFloor.transform.rotation = wireTransform.rotation;
         currentFloor.SetSnap(wireRb);
     }
     private void DropFloor()
     {
         currentFloor.transform.SetParent(null);
         currentFloor.SetLanding();
+        currentFloor = null;
     }
     private void HandleCreateFloor(FloorModule floor)
     {
         AddFloor(floor);
     }
+
+    private void HandleTryDropFloor()
+    {
+        if (currentFloor)
+        {
+            DropFloor();
+        }
+    }
     private void OnDestroy()
     {
         level.OnCreateFloor -= HandleCreateFloor;
+        level.OnTryDropFloor -= HandleTryDropFloor;
     }
 }
