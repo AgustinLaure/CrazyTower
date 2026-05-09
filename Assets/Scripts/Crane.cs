@@ -20,7 +20,7 @@ public class Crane : MonoBehaviour
     private float distanceToLoopingPoint;
 
     private bool isSwinging;
-    private bool push;
+    private bool hasPushedPendulum = false;
 
     private const float maxPendulumAngle = 90f;
 
@@ -29,7 +29,6 @@ public class Crane : MonoBehaviour
         wireTransform = wire.GetComponent<Transform>();
         wireRb = wire.GetComponent<Rigidbody>();
 
-        push = false;
         float pivotWireDistY = Mathf.Abs(pivotTransform.transform.position.y - wireTransform.transform.position.y);
 
         distanceToLoopingPoint = pendulumAngle * pivotWireDistY / maxPendulumAngle;
@@ -41,19 +40,12 @@ public class Crane : MonoBehaviour
         level.OnTryDropFloor += HandleTryDropFloor;
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            push = true;
-        }
-    }
     private void FixedUpdate()
     {
-        if (push)
+        if (!hasPushedPendulum)
         {
             PushPendulum();
-            push = false;
+            hasPushedPendulum = true;
         }
 
         Swing();
