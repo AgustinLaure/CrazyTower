@@ -526,7 +526,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 1916670574}
     m_Modifications:
     - target: {fileID: 12344241863610028, guid: 0faab89e82c3ad942867754dba3260fc, type: 3}
       propertyPath: m_IsTrigger
@@ -566,19 +566,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2845923305848240092, guid: 0faab89e82c3ad942867754dba3260fc, type: 3}
       propertyPath: pendulumAngle
-      value: 60
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 3539572224886786046, guid: 0faab89e82c3ad942867754dba3260fc, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 3.18
+      value: 0.86674
       objectReference: {fileID: 0}
     - target: {fileID: 3539572224886786046, guid: 0faab89e82c3ad942867754dba3260fc, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.9760001
+      value: 0.70888007
       objectReference: {fileID: 0}
     - target: {fileID: 3539572224886786046, guid: 0faab89e82c3ad942867754dba3260fc, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 3.23428
+      value: 5.80415
       objectReference: {fileID: 0}
     - target: {fileID: 3539572224886786046, guid: 0faab89e82c3ad942867754dba3260fc, type: 3}
       propertyPath: m_LocalRotation.w
@@ -661,14 +661,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1784913974}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.85585, y: -0, z: -3.00722}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.5425899, y: -0.26712, z: -0.43735003}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1314582779}
   - {fileID: 847090555}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1916670574}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1906800466 stripped
 MonoBehaviour:
@@ -681,6 +681,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 851d4be4ff4aafa4d87af4c86c70660c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Crane
+--- !u!4 &1906800467 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3539572224886786046, guid: 0faab89e82c3ad942867754dba3260fc, type: 3}
+  m_PrefabInstance: {fileID: 1693999969}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1916670572
 GameObject:
   m_ObjectHideFlags: 0
@@ -691,8 +696,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1916670574}
   - component: {fileID: 1916670573}
+  - component: {fileID: 1916670575}
   m_Layer: 0
-  m_Name: Level1
+  m_Name: Level
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -710,11 +716,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e192be7919023b4e8ee262e729d2662, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager1
+  playerController: {fileID: 1916670575}
   floorModulePrefab: {fileID: 4899233029434008918, guid: 1efbcf4ed1bcced4f9d122b9a63f22ac, type: 3}
   crane: {fileID: 1906800466}
   tower: {fileID: 1314582780}
   movableScenary: {fileID: 1784913974}
-  scenaryMoveSpeed: 100
+  scenaryMoveSpeed: 10
 --- !u!4 &1916670574
 Transform:
   m_ObjectHideFlags: 0
@@ -727,9 +734,24 @@ Transform:
   m_LocalPosition: {x: 2.31326, y: 0.26712, z: -2.56987}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1906800467}
+  - {fileID: 1784913975}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1916670575
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1916670572}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 157372e1bcfb5054f80dc4a986580319, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerController
+  dropFloorKey: 274
 --- !u!1001 &1560423540293286022
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -805,6 +827,4 @@ SceneRoots:
   m_Roots:
   - {fileID: 1087784216}
   - {fileID: 116876531}
-  - {fileID: 1693999969}
   - {fileID: 1916670574}
-  - {fileID: 1784913975}

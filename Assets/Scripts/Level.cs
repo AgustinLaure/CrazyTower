@@ -3,69 +3,90 @@ using UnityEngine;
 
 public class Level : MonoBehaviour
 {
+    public event Action<FloorModule> OnCreateFloor;
     public event Action OnTryDropFloor;
 
     [SerializeField] private PlayerController playerController;
     [SerializeField] private FloorModule floorModulePrefab;
-    private FloorModule currentFloor;
-    private bool canCreateFloor;
 
-    public event Action<FloorModule> OnCreateFloor;
+    private FloorModule currentFloor;
+    private bool isPlaying = true;
+    private bool canCreateFloor = true;
 
     [SerializeField] private Crane crane;
     [SerializeField] private Tower tower;
+
     [SerializeField] private GameObject movableScenary;
 
     //How much the scenary moves when adding a new floor to tower
     private float scenaryMoveDistance;
     [SerializeField] private float scenaryMoveSpeed;
 
+    bool isScenaryMoving = false;
+    bool isScenaryTrayectoryDefined = false;
+    Vector3 movingScenaryTowards;
     private void Awake()
     {
-        canCreateFloor = true;
         scenaryMoveDistance = (floorModulePrefab.GetComponent<BoxCollider>().size.y * floorModulePrefab.transform.localScale.y);
 
         tower.OnAddedFloor += HandleFloorSnap;
         playerController.OnDropFloorRequest += HandleDropFloorRequest;
     }
+
     private void Update()
     {
-        if (Input.GetKey(KeyCode.C))
+        if (isPlaying)
         {
-            CreateFloor();
+            if (canCreateFloor)
+            {
+                CreateFloor();
+            }
+
+            if (isScenaryMoving)
+            {
+                MoveScenary();
+            }
         }
     }
-
     private void CreateFloor()
     {
-        if (canCreateFloor)
-        {
-            currentFloor = Instantiate(floorModulePrefab);
-            canCreateFloor = false;
-            OnCreateFloor?.Invoke(currentFloor);
-        }
+        currentFloor = Instantiate(floorModulePrefab);
+        canCreateFloor = false;
+        OnCreateFloor?.Invoke(currentFloor);
     }
 
     private void MoveScenary()
     {
-        Vector3 movingScenaryFrom = movableScenary.transform.position;
-        Vector3 movingScenaryTo = new Vector3(movingScenaryFrom.x, movingScenaryFrom.y - scenaryMoveDistance, movingScenaryFrom.z);
+        if (!isScenaryTrayectoryDefined)
+        {
+            movingScenaryTowards = new Vector3(movableScenary.transform.position.x, movableScenary.transform.position.y - scenaryMoveDistance, movableScenary.transform.position.z);
+            isScenaryTrayectoryDefined = true;
+        }
 
-        movableScenary.transform.position = Vector3.MoveTowards(movingScenaryFrom, movingScenaryTo, scenaryMoveSpeed);
+        movableScenary.transform.position = Vector3.MoveTowards(movableScenary.transform.position, movingScenaryTowards, scenaryMoveSpeed * Time.deltaTime);
+
+        if (movableScenary.transform.position == movingScenaryTowards)
+        {
+            isScenaryMoving = false;
+            isScenaryTrayectoryDefined = false;
+            canCreateFloor = true;
+        }
     }
+
     private void HandleFloorSnap(bool isPerfect)
     {
-        MoveScenary();
-        canCreateFloor = true;
+        isScenaryMoving = true;
     }
+
     private void HandleDropFloorRequest()
     {
         OnTryDropFloor?.Invoke();
     }
+
     private void OnDestroy()
     {
         tower.OnAddedFloor -= HandleFloorSnap;
         playerController.OnDropFloorRequest -= HandleDropFloorRequest;
     }
-    
+
 }

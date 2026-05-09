@@ -57,10 +57,12 @@ public class Tower : MonoBehaviour
     {
         return floor.transform.position.y > LastFloor.transform.position.y + LastFloor.ColliderGlobalExtents.y;
     }
+
     private void PushUnaddableFloor(FloorModule floor)
     {
         floor.SetFalling();
     }
+
     private void HandleFloorCollision(FloorModule floor)
     {
         if (IsAddable(floor))
@@ -99,5 +101,6 @@ public class Tower : MonoBehaviour
             floor.OnFloorModuleCollision -= HandleFloorCollision;
         }
     }
+
     private FloorModule LastFloor { get { return floors[^1]; } }
 }

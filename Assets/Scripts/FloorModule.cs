@@ -7,6 +7,7 @@ public class FloorModule : MonoBehaviour
     [SerializeField] Rigidbody rb;
 
     public event Action<FloorModule> OnFloorModuleCollision;
+
     public void SetSnap(Rigidbody pivot)
     {
         joint.connectedBody = pivot;
@@ -68,6 +69,8 @@ public class FloorModule : MonoBehaviour
             }
         }
     }
+
     public Vector3 ColliderGlobalSize { get { return GetComponent<BoxCollider>().size * transform.localScale.y; } }
+
     public Vector3 ColliderGlobalExtents { get { return (GetComponent<BoxCollider>().size * transform.localScale.y) / 2; } }
 }

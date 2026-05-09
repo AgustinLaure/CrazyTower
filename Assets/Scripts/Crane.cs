@@ -88,12 +88,14 @@ public class Crane : MonoBehaviour
         currentFloor.transform.rotation = wireTransform.rotation;
         currentFloor.SetSnap(wireRb);
     }
+
     private void DropFloor()
     {
         currentFloor.transform.SetParent(null);
         currentFloor.SetLanding();
         currentFloor = null;
     }
+
     private void HandleCreateFloor(FloorModule floor)
     {
         AddFloor(floor);
@@ -106,6 +108,7 @@ public class Crane : MonoBehaviour
             DropFloor();
         }
     }
+
     private void OnDestroy()
     {
         level.OnCreateFloor -= HandleCreateFloor;
