@@ -1,21 +1,33 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class GameManager : MonoBehaviour
+public class GameManager
 {
-    [SerializeField] private MainMenu ui;
-    void Start()
+    private static GameManager instance = null;
+
+    public static GameManager Instance
     {
-        ui.OnPlay += OnPlay;
-        ui.OnExit += OnExit;
+        get
+        {
+            if (instance == null)
+            {
+                instance = new GameManager();
+            }
+
+            return instance;
+        }
+        private set { } 
     }
 
-    private void OnPlay()
+    private string[] levels = { "Level01" };
+    private int currentLevel = 0;
+
+    public void Play()
     {
-        SceneManager.LoadScene("Gameplay");
+        SceneManager.LoadScene(levels[currentLevel]);
     }
 
-    private void OnExit()
+    public void QuitGame()
     {
         Application.Quit();
 
@@ -23,9 +35,20 @@ public class GameManager : MonoBehaviour
         UnityEditor.EditorApplication.isPlaying = false;
 #endif
     }
-    private void OnDisable()
+    public void ChangeNextLevel()
     {
-        ui.OnPlay -= OnPlay;
-        ui.OnExit -= OnExit;
+        if (currentLevel + 1 < levels.Length)
+        {
+            SceneManager.LoadScene(levels[currentLevel + 1]);
+            currentLevel++;
+        }
+        else
+        {
+            Debug.LogError("Tried changing to next level at last level");
+        }
+    }
+    public void ResetLevel()
+    {
+        SceneManager.LoadScene(levels[currentLevel]);
     }
 }

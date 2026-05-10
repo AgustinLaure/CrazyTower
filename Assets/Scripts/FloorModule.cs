@@ -7,6 +7,7 @@ public class FloorModule : MonoBehaviour
     [SerializeField] Rigidbody rb;
 
     public event Action<FloorModule> OnFloorModuleCollision;
+    public event Action OnBoundarieCollision;
 
     public void SetSnap(Rigidbody pivot)
     {
@@ -67,6 +68,10 @@ public class FloorModule : MonoBehaviour
             {
                 OnFloorModuleCollision?.Invoke(floorModule);
             }
+        }
+        else if (collision.gameObject.CompareTag("Boundarie"))
+        {
+            OnBoundarieCollision?.Invoke();
         }
     }
 

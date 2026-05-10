@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class Tower : MonoBehaviour
 {
+    public event Action<bool> OnAddedFloor;
+
     [SerializeField] private List<FloorModule> floors = new List<FloorModule>();
 
     [SerializeField] private float perfectMarginX = 0.5f;
-
-    public event Action<bool> OnAddedFloor;
+    private FloorModule LastFloor { get { return floors[^1]; } }
 
     private void Awake()
     {
@@ -33,7 +34,7 @@ public class Tower : MonoBehaviour
         floor.SetSnap(floors[^1].GetComponent<Rigidbody>());
 
         floorRb.isKinematic = true;
-
+        
         floors.Add(floor);
         floor.OnFloorModuleCollision += HandleFloorCollision;
 
@@ -55,7 +56,10 @@ public class Tower : MonoBehaviour
 
     private bool IsAddable(FloorModule floor)
     {
-        return floor.transform.position.y > LastFloor.transform.position.y + LastFloor.ColliderGlobalExtents.y;
+        bool isAddable = floor.transform.position.y > LastFloor.transform.position.y + LastFloor.ColliderGlobalExtents.y;
+
+
+        return isAddable;
     }
 
     private void PushUnaddableFloor(FloorModule floor)
@@ -102,5 +106,4 @@ public class Tower : MonoBehaviour
         }
     }
 
-    private FloorModule LastFloor { get { return floors[^1]; } }
 }

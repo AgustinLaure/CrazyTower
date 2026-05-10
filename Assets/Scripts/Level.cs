@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Level : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class Level : MonoBehaviour
     private FloorModule currentFloor;
     private bool isPlaying = true;
     private bool canCreateFloor = true;
+    private float totalFloorsLanded = 0f;
 
     [SerializeField] private Crane crane;
     [SerializeField] private Tower tower;
@@ -48,9 +50,20 @@ public class Level : MonoBehaviour
             }
         }
     }
+
+    public void ResetLevel()
+    {
+        GameManager.Instance.ResetLevel();
+    }
     private void CreateFloor()
     {
+        if (currentFloor)
+        {
+            currentFloor.OnBoundarieCollision -= HandleFloorBoundarieCollision;
+        }
+
         currentFloor = Instantiate(floorModulePrefab);
+        currentFloor.OnBoundarieCollision += HandleFloorBoundarieCollision;
         canCreateFloor = false;
         OnCreateFloor?.Invoke(currentFloor);
     }
@@ -76,6 +89,7 @@ public class Level : MonoBehaviour
     private void HandleFloorSnap(bool isPerfect)
     {
         isScenaryMoving = true;
+        totalFloorsLanded += 1;
     }
 
     private void HandleDropFloorRequest()
@@ -83,6 +97,10 @@ public class Level : MonoBehaviour
         OnTryDropFloor?.Invoke();
     }
 
+    private void HandleFloorBoundarieCollision()
+    {
+        ResetLevel();
+    }
     private void OnDestroy()
     {
         tower.OnAddedFloor -= HandleFloorSnap;

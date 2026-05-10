@@ -4,9 +4,6 @@ using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour
 {
-    public event Action OnPlay;
-    public event Action OnExit;
-
     [SerializeField] private CanvasGroup mainMenu;
     [SerializeField] private CanvasGroup howToPlay;
     [SerializeField] private CanvasGroup credits;
@@ -54,7 +51,7 @@ public class MainMenu : MonoBehaviour
 
     private void OnPlayPressed()
     {
-        OnPlay?.Invoke();
+        GameManager.Instance.Play();
     }
 
     private void OnHtpPressed()
@@ -70,7 +67,7 @@ public class MainMenu : MonoBehaviour
     }
     private void OnExitPressed()
     {
-        OnExit?.Invoke();
+        GameManager.Instance.QuitGame();
     }
 
     private void OnHtpBackPressed()

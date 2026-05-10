@@ -4,9 +4,9 @@
 TagManager:
   serializedVersion: 3
   tags:
-  - Boundaries
   - Tower
   - FloorModule
+  - Boundarie
   layers:
   - Default
   - TransparentFX
