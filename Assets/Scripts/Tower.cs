@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class Tower : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class Tower : MonoBehaviour
     [SerializeField] private List<FloorModule> floors = new List<FloorModule>();
 
     [SerializeField] private float perfectMarginX = 0.5f;
+    [SerializeField] private float isAddableMarginX = 0.2f;
     private FloorModule LastFloor { get { return floors[^1]; } }
 
     private void Awake()
@@ -21,11 +23,10 @@ public class Tower : MonoBehaviour
 
     public void AddFloor(FloorModule floor)
     {
-        bool landedPerfect = IsPerfect(floor);
-
         floor.transform.SetParent(transform.Find("Floors"));
 
         Rigidbody floorRb = floor.GetComponent<Rigidbody>();
+        floorRb.isKinematic = true;
 
         FixFloorPos(floor);
 
@@ -56,8 +57,10 @@ public class Tower : MonoBehaviour
 
     private bool IsAddable(FloorModule floor)
     {
-        bool isAddable = floor.transform.position.y > LastFloor.transform.position.y + LastFloor.ColliderGlobalExtents.y;
+        float distX = Math.Abs(LastFloor.transform.position.x - floor.transform.position.x);
 
+        bool isAddable = floor.transform.position.y > LastFloor.transform.position.y + LastFloor.ColliderGlobalExtents.y
+            && distX < floor.ColliderGlobalExtents.x + LastFloor.ColliderGlobalExtents.x - isAddableMarginX;
 
         return isAddable;
     }
