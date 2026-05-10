@@ -109,26 +109,23 @@ public class Tower : MonoBehaviour
 
     private void UpdateBobIntensity(Vector3 floorPos)
     {
-        //if (isBobbing)
-        //{
-            Vector3 lastFloorPos = LastFloor.transform.position;
+        Vector3 lastFloorPos = LastFloor.transform.position;
 
-            float distX = Math.Abs(floorPos.x - LastFloor.transform.position.x);
-            int dir = 0;
+        float distX = Math.Abs(floorPos.x - LastFloor.transform.position.x);
+        int dir = 0;
 
-            if (floorPos.x < lastFloorPos.x)
-            {
-                dir = -1;
-            }
-            else if (floorPos.x > lastFloorPos.x)
-            {
-                dir = 1;
-            }
+        if (floorPos.x < lastFloorPos.x)
+        {
+            dir = -1;
+        }
+        else if (floorPos.x > lastFloorPos.x)
+        {
+            dir = 1;
+        }
 
-            bobIntensity += distX * dir * bobMultiplier;
+        bobIntensity += distX * dir * bobMultiplier;
 
-            CheckShouldCrumble();
-       // }
+        CheckShouldCrumble();
     }
 
     private void UpdateBobDir(Vector3 floorPos)
