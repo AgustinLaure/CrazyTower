@@ -1,24 +1,8 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class GameManager
+public class GameManager : Singleton<GameManager>
 {
-    private static GameManager instance = null;
-
-    public static GameManager Instance
-    {
-        get
-        {
-            if (instance == null)
-            {
-                instance = new GameManager();
-            }
-
-            return instance;
-        }
-        private set { } 
-    }
-
     private string[] levels = { "Level01" };
     private int currentLevel = 0;
 

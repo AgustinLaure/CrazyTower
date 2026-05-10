@@ -101,10 +101,10 @@ public class Level : MonoBehaviour
     {
         ResetLevel();
     }
+
     private void OnDestroy()
     {
         tower.OnAddedFloor -= HandleFloorSnap;
         playerController.OnDropFloorRequest -= HandleDropFloorRequest;
     }
-
 }
