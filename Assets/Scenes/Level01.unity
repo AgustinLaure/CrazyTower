@@ -413,7 +413,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2108413639842179315, guid: 3ee3ac43a653cb640958f75b6cdcb0e0, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.2
+      value: -2.246
       objectReference: {fileID: 0}
     - target: {fileID: 2108413639842179315, guid: 3ee3ac43a653cb640958f75b6cdcb0e0, type: 3}
       propertyPath: m_LocalPosition.z
@@ -448,8 +448,16 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2967163335799719462, guid: 3ee3ac43a653cb640958f75b6cdcb0e0, type: 3}
+      propertyPath: bobSpeed
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2967163335799719462, guid: 3ee3ac43a653cb640958f75b6cdcb0e0, type: 3}
+      propertyPath: minFloorsToBob
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2967163335799719462, guid: 3ee3ac43a653cb640958f75b6cdcb0e0, type: 3}
       propertyPath: perfectMarginX
-      value: 0.1
+      value: 0.05
       objectReference: {fileID: 0}
     - target: {fileID: 2967163335799719462, guid: 3ee3ac43a653cb640958f75b6cdcb0e0, type: 3}
       propertyPath: isAddableMarginX
@@ -458,6 +466,10 @@ PrefabInstance:
     - target: {fileID: 8415927503505296783, guid: 3ee3ac43a653cb640958f75b6cdcb0e0, type: 3}
       propertyPath: m_Name
       value: Tower
+      objectReference: {fileID: 0}
+    - target: {fileID: 8928068213787010540, guid: 3ee3ac43a653cb640958f75b6cdcb0e0, type: 3}
+      propertyPath: m_IsKinematic
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -513,6 +525,10 @@ PrefabInstance:
       propertyPath: level
       value: 
       objectReference: {fileID: 759078065}
+    - target: {fileID: 2845923305848240092, guid: 0faab89e82c3ad942867754dba3260fc, type: 3}
+      propertyPath: pendulumAngle
+      value: 45
+      objectReference: {fileID: 0}
     - target: {fileID: 3539572224886786046, guid: 0faab89e82c3ad942867754dba3260fc, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1.31983

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -12,13 +13,136 @@ public class Tower : MonoBehaviour
     [SerializeField] private float perfectMarginX = 0.5f;
     [SerializeField] private float isAddableMarginX = 0.2f;
     private FloorModule LastFloor { get { return floors[^1]; } }
+    private float RelativeBobSpeed { get { return Math.Abs(bobStartPos.x - bobEndPos.x) * bobSpeed / ObjectiveDistance; } }
+
+    private bool isBobbing = false;
+    private bool shouldCrumble = false;
+
+    //Proportional to ObjectiveDistance
+    [SerializeField] private float bobSpeed = 1f;
+    private float ObjectiveDistance = 5f;
+
+    [SerializeField] private float minFloorsToBob = 1f;
+
+    [SerializeField] private float maxBobintensityToCrumble = 0.6f;
+
+    private Vector3 bobStartPos;
+    private Vector3 bobEndPos;
+    private float bobMultiplier = 0.5f;
+    private float bobIntensity = 0f;
+    private int bobbingDir = 1;
+    private bool isBobbingSet = false;
 
     private void Awake()
     {
+        bobStartPos = transform.position;
         foreach (FloorModule floor in floors)
         {
             floor.OnFloorModuleCollision += HandleFloorCollision;
         }
+    }
+
+    private void Update()
+    {
+        if (!isBobbing)
+        {
+            CheckShouldBob();
+        }
+        else
+        {
+            Bob();
+        }
+
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            shouldCrumble = true;
+        }
+    }
+
+    private void CheckShouldBob()
+    {
+        if (floors.Count >= minFloorsToBob)
+        {
+            isBobbing = true;
+            bobStartPos = LastFloor.transform.position;
+        }
+    }
+    private void Bob()
+    {
+        if (!isBobbingSet)
+        {
+            bobEndPos = new Vector3(bobStartPos.x + bobIntensity * bobbingDir, transform.position.y, transform.position.z);
+        }
+
+        transform.position = Vector3.MoveTowards(transform.position, bobEndPos, RelativeBobSpeed * Time.deltaTime);
+
+        if (transform.position == bobEndPos)
+        {
+            if (shouldCrumble && ((bobbingDir < 0f && bobIntensity < 0f) || (bobbingDir > 0f && bobIntensity > 0f)))
+            {
+                Crumble();
+            }
+
+            bobbingDir *= -1;
+            isBobbingSet = false;
+        }
+    }
+
+    private void Crumble()
+    {
+        foreach (var floor in floors)
+        {
+            floor.SetFalling();
+            floor.GetComponent<Rigidbody>().isKinematic = false;
+            floor.OnFloorModuleCollision -= HandleFloorCollision;
+        }
+
+        floors.Clear();
+    }
+
+    private void CheckShouldCrumble()
+    {
+        Debug.Log(bobIntensity);
+
+        shouldCrumble = Math.Abs(bobIntensity) >= maxBobintensityToCrumble;
+    }
+
+    private void UpdateBobIntensity(Vector3 floorPos)
+    {
+        //if (isBobbing)
+        //{
+            Vector3 lastFloorPos = LastFloor.transform.position;
+
+            float distX = Math.Abs(floorPos.x - LastFloor.transform.position.x);
+            int dir = 0;
+
+            if (floorPos.x < lastFloorPos.x)
+            {
+                dir = -1;
+            }
+            else if (floorPos.x > lastFloorPos.x)
+            {
+                dir = 1;
+            }
+
+            bobIntensity += distX * dir * bobMultiplier;
+
+            CheckShouldCrumble();
+       // }
+    }
+
+    private void UpdateBobDir(Vector3 floorPos)
+    {
+        if (floorPos.x < LastFloor.transform.position.x)
+        {
+            bobbingDir = -1;
+        }
+        else if (floorPos.x > LastFloor.transform.position.x)
+        {
+            bobbingDir = 1;
+        }
+
+        isBobbingSet = false;
     }
 
     public void AddFloor(FloorModule floor)
@@ -26,20 +150,22 @@ public class Tower : MonoBehaviour
         floor.transform.SetParent(transform.Find("Floors"));
 
         Rigidbody floorRb = floor.GetComponent<Rigidbody>();
-        floorRb.isKinematic = true;
 
         FixFloorPos(floor);
-
         AdjustPerfect(floor);
-
         floor.SetSnap(floors[^1].GetComponent<Rigidbody>());
-
         floorRb.isKinematic = true;
-        
+
+        UpdateBobIntensity(floor.transform.position);
+        UpdateBobDir(floor.transform.position);
+
         floors.Add(floor);
         floor.OnFloorModuleCollision += HandleFloorCollision;
 
-        OnAddedFloor?.Invoke(true);
+        if (!shouldCrumble)
+        {
+            OnAddedFloor?.Invoke(true);
+        }
     }
 
     private void FixFloorPos(FloorModule floor)
@@ -108,5 +234,4 @@ public class Tower : MonoBehaviour
             floor.OnFloorModuleCollision -= HandleFloorCollision;
         }
     }
-
 }
