@@ -453,7 +453,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2967163335799719462, guid: 3ee3ac43a653cb640958f75b6cdcb0e0, type: 3}
       propertyPath: minFloorsToBob
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2967163335799719462, guid: 3ee3ac43a653cb640958f75b6cdcb0e0, type: 3}
       propertyPath: perfectMarginX

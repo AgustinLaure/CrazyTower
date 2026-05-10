@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class Level : MonoBehaviour
 {
@@ -9,11 +8,14 @@ public class Level : MonoBehaviour
 
     [SerializeField] private PlayerController playerController;
     [SerializeField] private FloorModule floorModulePrefab;
+    [SerializeField] private LevelUI levelUI;
 
     private FloorModule currentFloor;
     private bool isPlaying = true;
     private bool canCreateFloor = true;
     private float totalFloorsLanded = 0f;
+    private float totalPerfectLanded = 0f;
+    private float perfectLandRow = 0f;
 
     [SerializeField] private Crane crane;
     [SerializeField] private Tower tower;
@@ -89,7 +91,19 @@ public class Level : MonoBehaviour
     private void HandleFloorSnap(bool isPerfect)
     {
         isScenaryMoving = true;
-        totalFloorsLanded += 1;
+        totalFloorsLanded += 1f;
+
+        if (isPerfect)
+        {
+            totalPerfectLanded += 1f;
+            perfectLandRow += 1f;
+        }
+        else
+        {
+            perfectLandRow = 0f;
+        }
+
+        levelUI.UpdateHUDData(totalFloorsLanded, perfectLandRow);
     }
 
     private void HandleDropFloorRequest()

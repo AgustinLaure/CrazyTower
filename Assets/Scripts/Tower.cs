@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 public class Tower : MonoBehaviour
 {
@@ -51,11 +49,6 @@ public class Tower : MonoBehaviour
         else
         {
             Bob();
-        }
-
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            shouldCrumble = true;
         }
     }
 
@@ -145,11 +138,12 @@ public class Tower : MonoBehaviour
     public void AddFloor(FloorModule floor)
     {
         floor.transform.SetParent(transform.Find("Floors"));
-
         Rigidbody floorRb = floor.GetComponent<Rigidbody>();
+        bool isPerfect = IsPerfect(floor);
 
         FixFloorPos(floor);
-        AdjustPerfect(floor);
+        AdjustPerfect(floor, isPerfect);
+
         floor.SetSnap(floors[^1].GetComponent<Rigidbody>());
         floorRb.isKinematic = true;
 
@@ -161,7 +155,7 @@ public class Tower : MonoBehaviour
 
         if (!shouldCrumble)
         {
-            OnAddedFloor?.Invoke(true);
+            OnAddedFloor?.Invoke(isPerfect);
         }
     }
 
@@ -213,9 +207,9 @@ public class Tower : MonoBehaviour
         return MathF.Abs(floor.transform.position.x - LastFloor.transform.position.x) < perfectMarginX;
     }
 
-    private void AdjustPerfect(FloorModule floor)
+    private void AdjustPerfect(FloorModule floor, bool isPerfect)
     {
-        if (IsPerfect(floor))
+        if (isPerfect)
         {
             Vector3 floorPos = floor.transform.position;
             Vector3 lastFloorPos = LastFloor.transform.position;
