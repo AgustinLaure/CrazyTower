@@ -1,14 +1,30 @@
 using UnityEngine;
 
-public abstract class MonoSingleton<T> : MonoBehaviour where T : class
+public abstract class MonoSingleton<T> : MonoBehaviour where T : MonoBehaviour
 {
-    public static T Instance { get; private set; }
-    [SerializeField] bool dontDestroyOnLoad = false;
+    private static T instance = null;
+    [SerializeField] bool dontDestroyOnLoad = true;
+
+    public static T Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                GameObject selfObj = new GameObject();
+                instance = selfObj.AddComponent<T>();
+            }
+
+            return instance;
+        }
+
+        private set { }
+    }
     private void Awake()
     {
-        if (Instance == null)
+        if (instance == null || instance == this)
         {
-            Instance = this as T;
+            instance = this as T;
 
             if (dontDestroyOnLoad)
             {
@@ -25,9 +41,9 @@ public abstract class MonoSingleton<T> : MonoBehaviour where T : class
 
     private void OnDestroy()
     {
-        if (Instance == this)
+        if (instance == this)
         {
-            Instance = null;
+            instance = null;
             OnDestroyed();
         }
     }

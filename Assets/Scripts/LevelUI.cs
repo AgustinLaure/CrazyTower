@@ -41,10 +41,6 @@ public class LevelUI : MonoBehaviour
         SetCanvasState(pauseCanvasGroup, GameManager.Instance.IsPaused);
     }
 
-    private bool IsCanvasVisible(CanvasGroup canvas)
-    {
-        return canvas.alpha > 0f;
-    }
     private void SetCanvasState(CanvasGroup canvas, bool state)
     {
         canvas.alpha = state ? 1f : 0f;
