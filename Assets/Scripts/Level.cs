@@ -10,12 +10,16 @@ public class Level : MonoBehaviour
     [SerializeField] private FloorModule floorModulePrefab;
     [SerializeField] private LevelUI levelUI;
 
+    //Not regarding perfect score multipliers
+    [SerializeField] private float maxScorePerLand = 100f;
+
     private FloorModule currentFloor;
     private bool isPlaying = true;
     private bool canCreateFloor = true;
-    private float totalFloorsLanded = 0f;
-    private float totalPerfectLanded = 0f;
-    private float perfectLandRow = 0f;
+    private int totalFloorsLanded = 0;
+    private int totalPerfectLanded = 0;
+    private int perfectLandRow = 0;
+    private int score = 0;
 
     [SerializeField] private Crane crane;
     [SerializeField] private Tower tower;
@@ -88,22 +92,38 @@ public class Level : MonoBehaviour
         }
     }
 
-    private void HandleFloorSnap(bool isPerfect)
+    private void HandleFloorSnap(bool isPerfect, float maxPossibleOffsetX, float offsetX)
     {
         isScenaryMoving = true;
-        totalFloorsLanded += 1f;
+        totalFloorsLanded += 1;
 
         if (isPerfect)
         {
-            totalPerfectLanded += 1f;
-            perfectLandRow += 1f;
+            totalPerfectLanded += 1;
+            perfectLandRow += 1;
         }
         else
         {
-            perfectLandRow = 0f;
+            perfectLandRow = 0;
         }
 
-        levelUI.UpdateHUDData(totalFloorsLanded, perfectLandRow);
+        UpdateScore(maxPossibleOffsetX, offsetX);
+
+        levelUI.UpdateHUDData(totalFloorsLanded, perfectLandRow, score);
+    }
+
+    private void UpdateScore(float maxPossibleOffsetX, float offsetX)
+    {
+        int possibleScore = (int)(maxScorePerLand - maxScorePerLand * (offsetX / maxPossibleOffsetX));
+        int possibleScoreRest = possibleScore % 5;
+        possibleScore -= possibleScoreRest;
+
+        if (perfectLandRow > 0)
+        {
+            possibleScore *= perfectLandRow;
+        }
+
+        score += possibleScore;
     }
 
     private void HandleDropFloorRequest()

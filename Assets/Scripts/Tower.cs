@@ -1,10 +1,11 @@
+using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Tower : MonoBehaviour
 {
-    public event Action<bool> OnAddedFloor;
+    public event Action<bool, float, float> OnAddedFloor;
 
     [SerializeField] private List<FloorModule> floors = new List<FloorModule>();
 
@@ -100,7 +101,7 @@ public class Tower : MonoBehaviour
         shouldCrumble = Math.Abs(bobIntensity) >= maxBobintensityToCrumble;
     }
 
-    private void UpdateBobIntensity(Vector3 floorPos)
+    private float UpdateBobIntensity(Vector3 floorPos)
     {
         Vector3 lastFloorPos = LastFloor.transform.position;
 
@@ -119,6 +120,8 @@ public class Tower : MonoBehaviour
         bobIntensity += distX * dir * bobMultiplier;
 
         CheckShouldCrumble();
+
+        return distX;
     }
 
     private void UpdateBobDir(Vector3 floorPos)
@@ -147,15 +150,18 @@ public class Tower : MonoBehaviour
         floor.SetSnap(floors[^1].GetComponent<Rigidbody>());
         floorRb.isKinematic = true;
 
-        UpdateBobIntensity(floor.transform.position);
+        float maxPossibleOffsetX = floor.ColliderGlobalExtents.x + LastFloor.ColliderGlobalExtents.x - isAddableMarginX;
+        float floorOffsetX = UpdateBobIntensity(floor.transform.position);
+
         UpdateBobDir(floor.transform.position);
 
         floors.Add(floor);
         floor.OnFloorModuleCollision += HandleFloorCollision;
 
+
         if (!shouldCrumble)
         {
-            OnAddedFloor?.Invoke(isPerfect);
+            OnAddedFloor?.Invoke(isPerfect, maxPossibleOffsetX, floorOffsetX);
         }
     }
 
@@ -174,10 +180,11 @@ public class Tower : MonoBehaviour
 
     private bool IsAddable(FloorModule floor)
     {
-        float distX = Math.Abs(LastFloor.transform.position.x - floor.transform.position.x);
+        float maxPossibleDistance = floor.ColliderGlobalExtents.x + LastFloor.ColliderGlobalExtents.x - isAddableMarginX;
 
+        float distX = Math.Abs(LastFloor.transform.position.x - floor.transform.position.x);
         bool isAddable = floor.transform.position.y > LastFloor.transform.position.y + LastFloor.ColliderGlobalExtents.y
-            && distX < floor.ColliderGlobalExtents.x + LastFloor.ColliderGlobalExtents.x - isAddableMarginX;
+            && distX <= maxPossibleDistance;
 
         return isAddable;
     }
