@@ -41,7 +41,7 @@ public class Level : MonoBehaviour
 
     bool isScenaryMoving = false;
     bool isScenaryTrayectoryDefined = false;
-    bool isLevelPassed = false;
+    bool hasLevelEnded = false;
     Vector3 movingScenaryTowards;
     private void Awake()
     {
@@ -51,13 +51,13 @@ public class Level : MonoBehaviour
         playerController.OnDropFloorRequest += HandleDropFloorRequest;
         playerController.OnPauseRequest += HandlePauseRequest;
 
-        levelMaxHeight = maxFloors * floorHeightUIMult;
 
         craneAngle = levelData.CraneAngle;
         craneSwingSpeed = levelData.CraneSpeed;
         maxFloors = levelData.MaxFloors;
         maxScorePerLand = levelData.MaxScorePerLand;
 
+        levelMaxHeight = maxFloors * floorHeightUIMult;
         crane.PendulumAngle = craneAngle;
         crane.SwingSpeed = craneSwingSpeed;
         levelUI.MaxTowerHeight = levelMaxHeight;
@@ -122,16 +122,21 @@ public class Level : MonoBehaviour
 
         levelUI.UpdateHUDData(tower.FloorsCount * floorHeightUIMult, perfectLandRow, score);
 
-        isLevelPassed = tower.FloorsCount >= maxFloors;
+        hasLevelEnded = tower.FloorsCount >= maxFloors;
 
-        if (isLevelPassed)
+        if (hasLevelEnded)
         {
-
+            EndLevel(true);
         }
         else
         {
             isScenaryMoving = true;
         }
+    }
+
+    private void EndLevel(bool hasWon)
+    {
+        levelUI.ShowGameEndedScreen(hasWon);
     }
 
     private void UpdateScore(float maxPossibleOffsetX, float offsetX)
@@ -155,12 +160,16 @@ public class Level : MonoBehaviour
 
     private void HandlePauseRequest()
     {
-        levelUI.TogglePause();
+        if (!hasLevelEnded)
+        {
+            levelUI.TogglePause();
+        }
     }
 
     private void HandleFloorBoundarieCollision()
     {
-        ResetLevel();
+        hasLevelEnded = true;
+        EndLevel(false);
     }
 
     private void OnDestroy()

@@ -7,18 +7,20 @@ public abstract class MonoSingleton<T> : MonoBehaviour where T : MonoBehaviour
 
     public static T Instance
     {
-        get
-        {
-            if (instance == null)
-            {
-                GameObject selfObj = new GameObject();
-                instance = selfObj.AddComponent<T>();
-            }
-
-            return instance;
-        }
-
+        get { return instance; }
         private set { }
+        //get
+        //{
+        //    if (instance == null)
+        //    {
+        //        GameObject selfObj = new GameObject();
+        //        instance = selfObj.AddComponent<T>();
+        //    }
+        //
+        //    return instance;
+        //}
+        //
+        //private set { }
     }
     private void Awake()
     {
