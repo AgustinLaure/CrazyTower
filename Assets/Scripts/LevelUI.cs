@@ -4,6 +4,7 @@ using UnityEngine.UI;
 public class LevelUI : MonoBehaviour
 {
     private float maxTowerHeight = 0f;
+    private const float inactiveButtonAlpha = 0.75f;
 
     [SerializeField] private TMPro.TextMeshProUGUI hudTotalLandedText;
     [SerializeField] private TMPro.TextMeshProUGUI perfectRowText;
@@ -15,6 +16,7 @@ public class LevelUI : MonoBehaviour
 
     [SerializeField] private CanvasGroup pauseCanvasGroup;
     [SerializeField] private CanvasGroup endGameCanvasGroup;
+    [SerializeField] private CanvasGroup nextLevelCanvasGroup;
 
     [SerializeField] private Button resumeButton;
     [SerializeField] private Button menuButton;
@@ -40,13 +42,16 @@ public class LevelUI : MonoBehaviour
     {
         hudTotalLandedText.text = $"Tower height: 2 / {maxTowerHeight.ToString("F0")}";
         hudScoreText.text = $"Score: 0";
+
+        endGameScoreText.text = "Score: 0";
+        endGameTotalLandedText.text = $"Tower height: 0 / {maxTowerHeight}";
     }
 
     public void UpdateHUDData(float newTowerHeight, int newPerfectRow, int newScore)
     {
         string newTowerHeightString = newTowerHeight.ToString("F0");
         string maxTowerHeightString = maxTowerHeight.ToString("F0");
-        string newScoreString = maxTowerHeight.ToString("F0");
+        string newScoreString = newScore.ToString("F0");
 
         hudTotalLandedText.text = $"Tower height: {newTowerHeightString} / {maxTowerHeightString}";
         hudScoreText.text = $"Score: {newScoreString}";
@@ -74,10 +79,21 @@ public class LevelUI : MonoBehaviour
     public void ShowGameEndedScreen(bool hasWon)
     {
         endGameTitle.text = hasWon ? "YOU WON" : "YOU LOST";
+
+        if (GameManager.Instance.IsAtLastLevel() || !hasWon)
+        {
+            SetButtonActive(nextLevelCanvasGroup, false);
+        }
+
         GameManager.Instance.TogglePause();
         SetCanvasState(endGameCanvasGroup, true);
     }
 
+    private void SetButtonActive(CanvasGroup canvas, bool isActive)
+    {
+        canvas.alpha = isActive ? 1f : inactiveButtonAlpha;
+        canvas.interactable = isActive;
+    }
     private void SetCanvasState(CanvasGroup canvas, bool state)
     {
         canvas.alpha = state ? 1f : 0f;
@@ -101,6 +117,7 @@ public class LevelUI : MonoBehaviour
     {
         GameManager.Instance.TogglePause();
         GameManager.Instance.ButtonPressedSound.Play();
+        GameManager.Instance.ChangeNextLevel();
     }
 
     private void HandleRetryButtonPressed()

@@ -11,7 +11,7 @@ public class GameManager : MonoSingleton<GameManager>
     private const float initialSfxVolume = -30f;
     private const float initialMusicVolume = 0f;
 
-    private string[] levels = { "Level01" };
+    private string[] levels = { "Level01", "Level02" };
     private int currentLevel = 0;
     private bool isPaused = false;
 
@@ -36,6 +36,8 @@ public class GameManager : MonoSingleton<GameManager>
 
     protected override void OnAwaken()
     {
+        currentLevel = GetCurrentSceneIndex();
+        
         if (PlayerPrefs.HasKey(wasGameOpenedBefore))
         {
             masterVolume = PlayerPrefs.GetFloat(masterVolumeKey);
@@ -56,10 +58,26 @@ public class GameManager : MonoSingleton<GameManager>
         UpdateAudioMixerValues();
     }
 
-    private void SetPrefValue(string key, float value)
+    private int GetCurrentSceneIndex()
     {
+        string currentLevelName = SceneManager.GetActiveScene().name;
 
+        for (int i = 0; i < levels.Length; i++)
+        {
+            if (levels[i] == currentLevelName)
+            {
+                return i;
+            }
+        }
+
+        return 0;
     }
+
+    public bool IsAtLastLevel()
+    {
+        return currentLevel + 1 >= levels.Length;
+    }
+
     public void Play()
     {
         SceneManager.LoadScene(levels[currentLevel]);
@@ -96,7 +114,7 @@ public class GameManager : MonoSingleton<GameManager>
 
     public void ChangeNextLevel()
     {
-        if (currentLevel + 1 < levels.Length)
+        if (!IsAtLastLevel())
         {
             SceneManager.LoadScene(levels[currentLevel + 1]);
             currentLevel++;
