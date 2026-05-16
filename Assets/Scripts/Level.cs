@@ -1,20 +1,28 @@
 using System;
+using System.Net.NetworkInformation;
 using UnityEngine;
+using UnityEngine.SocialPlatforms.Impl;
 
 public class Level : MonoBehaviour
 {
     public event Action<FloorModule> OnCreateFloor;
     public event Action OnTryDropFloor;
 
+    [SerializeField] private LevelScriptable levelData;
+    private float craneAngle = 60f;
+    private float craneSwingSpeed = 2f;
+    private int maxFloors = 10;
+    //Not regarding perfect score multipliers
+    private float maxScorePerLand = 100f;
+
     //In meters
     [SerializeField] private float floorHeightUIMult = 2f;
+    private float levelMaxHeight = 1f;
 
     [SerializeField] private PlayerController playerController;
     [SerializeField] private FloorModule floorModulePrefab;
     [SerializeField] private LevelUI levelUI;
 
-    //Not regarding perfect score multipliers
-    [SerializeField] private float maxScorePerLand = 100f;
 
     private FloorModule currentFloor;
     private bool isPlaying = true;
@@ -33,6 +41,7 @@ public class Level : MonoBehaviour
 
     bool isScenaryMoving = false;
     bool isScenaryTrayectoryDefined = false;
+    bool isLevelPassed = false;
     Vector3 movingScenaryTowards;
     private void Awake()
     {
@@ -41,6 +50,17 @@ public class Level : MonoBehaviour
         tower.OnAddedFloor += HandleFloorSnap;
         playerController.OnDropFloorRequest += HandleDropFloorRequest;
         playerController.OnPauseRequest += HandlePauseRequest;
+
+        levelMaxHeight = maxFloors * floorHeightUIMult;
+
+        craneAngle = levelData.CraneAngle;
+        craneSwingSpeed = levelData.CraneSpeed;
+        maxFloors = levelData.MaxFloors;
+        maxScorePerLand = levelData.MaxScorePerLand;
+
+        crane.PendulumAngle = craneAngle;
+        crane.SwingSpeed = craneSwingSpeed;
+        levelUI.MaxTowerHeight = levelMaxHeight;
     }
 
     private void Update()
@@ -96,13 +116,22 @@ public class Level : MonoBehaviour
 
     private void HandleFloorSnap(bool isPerfect, float maxPossibleOffsetX, float offsetX)
     {
-        isScenaryMoving = true;
+        UpdateScore(maxPossibleOffsetX, offsetX);
 
         perfectLandRow = isPerfect ? perfectLandRow + 1 : 0;
 
-        UpdateScore(maxPossibleOffsetX, offsetX);
-
         levelUI.UpdateHUDData(tower.FloorsCount * floorHeightUIMult, perfectLandRow, score);
+
+        isLevelPassed = tower.FloorsCount >= maxFloors;
+
+        if (isLevelPassed)
+        {
+
+        }
+        else
+        {
+            isScenaryMoving = true;
+        }
     }
 
     private void UpdateScore(float maxPossibleOffsetX, float offsetX)

@@ -2,7 +2,7 @@ using UnityEngine;
 public class Crane : MonoBehaviour
 {
     [SerializeField] private Level level;
-    [SerializeField] private float swingSpeed;
+    [SerializeField] private float swingSpeed = 2f;
     [SerializeField] private ForceMode forceMode;
 
     [SerializeField] private Transform floorSpawnPoint;
@@ -17,12 +17,15 @@ public class Crane : MonoBehaviour
 
     //In degrees
     [SerializeField] private float pendulumAngle;
+
     private float distanceToLoopingPoint;
 
     private bool isSwinging;
     private bool hasPushedPendulum = false;
 
     private const float maxPendulumAngle = 90f;
+    public float PendulumAngle { get { return pendulumAngle; } set { pendulumAngle = value; } }
+    public float SwingSpeed { get { return swingSpeed; } set { swingSpeed = value; } }
 
     private void Awake()
     {

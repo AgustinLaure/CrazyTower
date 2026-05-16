@@ -3,6 +3,8 @@ using UnityEngine.UI;
 
 public class LevelUI : MonoBehaviour
 {
+    private float maxTowerHeight = 0f;
+
     [SerializeField] private TMPro.TextMeshProUGUI totalLandedText;
     [SerializeField] private TMPro.TextMeshProUGUI perfectRowText;
     [SerializeField] private TMPro.TextMeshProUGUI scoreText;
@@ -10,6 +12,7 @@ public class LevelUI : MonoBehaviour
 
     [SerializeField] private Button resumeButton;
     [SerializeField] private Button menuButton;
+    public float MaxTowerHeight { get { return maxTowerHeight; } set { maxTowerHeight = value; } }
 
     private void Awake()
     {
@@ -19,9 +22,15 @@ public class LevelUI : MonoBehaviour
         menuButton.onClick.AddListener(HandleMenuButtonPressed);
     }
 
+    private void Start()
+    {
+        totalLandedText.text = $"Tower height: 2 / {maxTowerHeight.ToString("F0")}";
+        scoreText.text = $"Score: 0";
+    }
+
     public void UpdateHUDData(float newTowerHeight, int newPerfectRow, int newScore)
     {
-        totalLandedText.text = $"Tower height: {newTowerHeight.ToString("F0")}";
+        totalLandedText.text = $"Tower height: {newTowerHeight.ToString("F0")} / {maxTowerHeight.ToString("F0")}";
         scoreText.text = $"Score: {newScore}";
 
         if (newPerfectRow > 0f)
