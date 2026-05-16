@@ -12,9 +12,9 @@ public class LevelUI : MonoBehaviour
         perfectRowText.alpha = 0f;
     }
 
-    public void UpdateHUDData(int newTotalLanded, int newPerfectRow, int newScore)
+    public void UpdateHUDData(float newTowerHeight, int newPerfectRow, int newScore)
     {
-        totalLandedText.text = $"Total landed: {newTotalLanded}";
+        totalLandedText.text = $"Tower height: {newTowerHeight.ToString("F0")}";
         scoreText.text = $"Score: {newScore}";
 
         if (newPerfectRow > 0f)

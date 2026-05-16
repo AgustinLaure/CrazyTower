@@ -845,7 +845,7 @@ PrefabInstance:
       objectReference: {fileID: 1750421974}
     - target: {fileID: 6825441268745873253, guid: f47b0f316479aac4896bf18319d2b33b, type: 3}
       propertyPath: m_text
-      value: 'Total landed: 0'
+      value: 'Tower height: 0'
       objectReference: {fileID: 0}
     - target: {fileID: 9166103859959637328, guid: f47b0f316479aac4896bf18319d2b33b, type: 3}
       propertyPath: m_Name

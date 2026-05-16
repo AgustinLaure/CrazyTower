@@ -16,8 +16,6 @@ public class Level : MonoBehaviour
     private FloorModule currentFloor;
     private bool isPlaying = true;
     private bool canCreateFloor = true;
-    private int totalFloorsLanded = 0;
-    private int totalPerfectLanded = 0;
     private int perfectLandRow = 0;
     private int score = 0;
 
@@ -95,21 +93,12 @@ public class Level : MonoBehaviour
     private void HandleFloorSnap(bool isPerfect, float maxPossibleOffsetX, float offsetX)
     {
         isScenaryMoving = true;
-        totalFloorsLanded += 1;
 
-        if (isPerfect)
-        {
-            totalPerfectLanded += 1;
-            perfectLandRow += 1;
-        }
-        else
-        {
-            perfectLandRow = 0;
-        }
+        perfectLandRow = isPerfect ? perfectLandRow + 1 : 0;
 
         UpdateScore(maxPossibleOffsetX, offsetX);
 
-        levelUI.UpdateHUDData(totalFloorsLanded, perfectLandRow, score);
+        levelUI.UpdateHUDData(tower.Height, perfectLandRow, score);
     }
 
     private void UpdateScore(float maxPossibleOffsetX, float offsetX)

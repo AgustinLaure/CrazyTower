@@ -8,6 +8,7 @@ public class FloorModule : MonoBehaviour
 
     public event Action<FloorModule> OnFloorModuleCollision;
     public event Action OnBoundarieCollision;
+    private float height;
 
     public void SetSnap(Rigidbody pivot)
     {

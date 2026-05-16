@@ -7,19 +7,22 @@ public class Tower : MonoBehaviour
 {
     public event Action<bool, float, float> OnAddedFloor;
 
-    [SerializeField] private List<FloorModule> floors = new List<FloorModule>();
+    private const float CMTOMETERS = 1000f;
 
+    [SerializeField] private List<FloorModule> floors = new List<FloorModule>();
     [SerializeField] private float perfectMarginX = 0.5f;
     [SerializeField] private float isAddableMarginX = 0.2f;
-    private FloorModule LastFloor { get { return floors[^1]; } }
-    private float RelativeBobSpeed { get { return Math.Abs(bobStartPos.x - bobEndPos.x) * bobSpeed / ObjectiveDistance; } }
+    public float Height { get; private set; }
+
+    private FloorModule lastFloor { get { return floors[^1]; } }
+    private float relativeBobSpeed { get { return Math.Abs(bobStartPos.x - bobEndPos.x) * bobSpeed / objectiveDistance; } }
 
     private bool isBobbing = false;
     private bool shouldCrumble = false;
 
     //Proportional to ObjectiveDistance
     [SerializeField] private float bobSpeed = 1f;
-    private float ObjectiveDistance = 5f;
+    private float objectiveDistance = 5f;
 
     [SerializeField] private float minFloorsToBob = 1f;
 
@@ -31,6 +34,7 @@ public class Tower : MonoBehaviour
     private float bobIntensity = 0f;
     private int bobbingDir = 1;
     private bool isBobbingSet = false;
+    private float height = 0f;
 
     private void Awake()
     {
@@ -58,7 +62,7 @@ public class Tower : MonoBehaviour
         if (floors.Count >= minFloorsToBob)
         {
             isBobbing = true;
-            bobStartPos = LastFloor.transform.position;
+            bobStartPos = lastFloor.transform.position;
         }
     }
     private void Bob()
@@ -68,7 +72,7 @@ public class Tower : MonoBehaviour
             bobEndPos = new Vector3(bobStartPos.x + bobIntensity * bobbingDir, transform.position.y, transform.position.z);
         }
 
-        transform.position = Vector3.MoveTowards(transform.position, bobEndPos, RelativeBobSpeed * Time.deltaTime);
+        transform.position = Vector3.MoveTowards(transform.position, bobEndPos, relativeBobSpeed * Time.deltaTime);
 
         if (transform.position == bobEndPos)
         {
@@ -103,9 +107,9 @@ public class Tower : MonoBehaviour
 
     private float UpdateBobIntensity(Vector3 floorPos)
     {
-        Vector3 lastFloorPos = LastFloor.transform.position;
+        Vector3 lastFloorPos = lastFloor.transform.position;
 
-        float distX = Math.Abs(floorPos.x - LastFloor.transform.position.x);
+        float distX = Math.Abs(floorPos.x - lastFloor.transform.position.x);
         int dir = 0;
 
         if (floorPos.x < lastFloorPos.x)
@@ -126,11 +130,11 @@ public class Tower : MonoBehaviour
 
     private void UpdateBobDir(Vector3 floorPos)
     {
-        if (floorPos.x < LastFloor.transform.position.x)
+        if (floorPos.x < lastFloor.transform.position.x)
         {
             bobbingDir = -1;
         }
-        else if (floorPos.x > LastFloor.transform.position.x)
+        else if (floorPos.x > lastFloor.transform.position.x)
         {
             bobbingDir = 1;
         }
@@ -150,7 +154,7 @@ public class Tower : MonoBehaviour
         floor.SetSnap(floors[^1].GetComponent<Rigidbody>());
         floorRb.isKinematic = true;
 
-        float maxPossibleOffsetX = floor.ColliderGlobalExtents.x + LastFloor.ColliderGlobalExtents.x - isAddableMarginX;
+        float maxPossibleOffsetX = floor.ColliderGlobalExtents.x + lastFloor.ColliderGlobalExtents.x - isAddableMarginX;
         float floorOffsetX = UpdateBobIntensity(floor.transform.position);
 
         UpdateBobDir(floor.transform.position);
@@ -158,6 +162,7 @@ public class Tower : MonoBehaviour
         floors.Add(floor);
         floor.OnFloorModuleCollision += HandleFloorCollision;
 
+        Height += floor.ColliderGlobalSize.y * CMTOMETERS;
 
         if (!shouldCrumble)
         {
@@ -170,20 +175,20 @@ public class Tower : MonoBehaviour
         floor.transform.rotation = Quaternion.identity;
 
         float newFloorHeight = (floor.GetComponent<BoxCollider>().size.y * floor.transform.localScale.y) / 2f;
-        float lastFloorHeight = (LastFloor.GetComponent<BoxCollider>().size.y * floor.transform.localScale.y) / 2f;
+        float lastFloorHeight = (lastFloor.GetComponent<BoxCollider>().size.y * floor.transform.localScale.y) / 2f;
 
         Vector3 newFloorPos = floor.transform.position;
-        Vector3 lastFloorPos = LastFloor.transform.position;
+        Vector3 lastFloorPos = lastFloor.transform.position;
 
         floor.transform.position = new Vector3(newFloorPos.x, lastFloorPos.y + newFloorHeight + lastFloorHeight, newFloorPos.z);
     }
 
     private bool IsAddable(FloorModule floor)
     {
-        float maxPossibleDistance = floor.ColliderGlobalExtents.x + LastFloor.ColliderGlobalExtents.x - isAddableMarginX;
+        float maxPossibleDistance = floor.ColliderGlobalExtents.x + lastFloor.ColliderGlobalExtents.x - isAddableMarginX;
 
-        float distX = Math.Abs(LastFloor.transform.position.x - floor.transform.position.x);
-        bool isAddable = floor.transform.position.y > LastFloor.transform.position.y + LastFloor.ColliderGlobalExtents.y
+        float distX = Math.Abs(lastFloor.transform.position.x - floor.transform.position.x);
+        bool isAddable = floor.transform.position.y > lastFloor.transform.position.y + lastFloor.ColliderGlobalExtents.y
             && distX <= maxPossibleDistance;
 
         return isAddable;
@@ -211,7 +216,7 @@ public class Tower : MonoBehaviour
 
     private bool IsPerfect(FloorModule floor)
     {
-        return MathF.Abs(floor.transform.position.x - LastFloor.transform.position.x) < perfectMarginX;
+        return MathF.Abs(floor.transform.position.x - lastFloor.transform.position.x) < perfectMarginX;
     }
 
     private void AdjustPerfect(FloorModule floor, bool isPerfect)
@@ -219,7 +224,7 @@ public class Tower : MonoBehaviour
         if (isPerfect)
         {
             Vector3 floorPos = floor.transform.position;
-            Vector3 lastFloorPos = LastFloor.transform.position;
+            Vector3 lastFloorPos = lastFloor.transform.position;
 
             floor.transform.position = new Vector3(lastFloorPos.x, floorPos.y, lastFloorPos.z);
         }
