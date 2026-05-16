@@ -5,6 +5,9 @@ public class GameManager : Singleton<GameManager>
 {
     private string[] levels = { "Level01" };
     private int currentLevel = 0;
+    private bool isPaused = false;
+
+    public bool IsPaused { get { return isPaused; } private set { } }
 
     public void Play()
     {
@@ -19,6 +22,13 @@ public class GameManager : Singleton<GameManager>
         UnityEditor.EditorApplication.isPlaying = false;
 #endif
     }
+
+    public void TogglePause()
+    {
+        isPaused = !isPaused;
+        Time.timeScale = isPaused ? 0f : 1f;
+    }
+
     public void ChangeNextLevel()
     {
         if (currentLevel + 1 < levels.Length)
@@ -31,8 +41,15 @@ public class GameManager : Singleton<GameManager>
             Debug.LogError("Tried changing to next level at last level");
         }
     }
+
+
     public void ResetLevel()
     {
         SceneManager.LoadScene(levels[currentLevel]);
+    }
+
+    public void MoveToMainMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
     }
 }

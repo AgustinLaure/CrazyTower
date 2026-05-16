@@ -4,14 +4,24 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public event Action OnDropFloorRequest;
+    public event Action OnPauseRequest;
 
-    [SerializeField] KeyCode dropFloorKey;
+    [SerializeField] KeyCode dropFloorKey = KeyCode.Space;
+    [SerializeField] KeyCode pauseKey = KeyCode.Escape;
 
     private void Update()
     {
-        if (Input.GetKeyDown(dropFloorKey))
+        if (!GameManager.Instance.IsPaused)
         {
-            OnDropFloorRequest?.Invoke();
+            if (Input.GetKeyDown(dropFloorKey))
+            {
+                OnDropFloorRequest?.Invoke();
+            }
+        }
+
+        if (Input.GetKeyUp(pauseKey))
+        {
+            OnPauseRequest?.Invoke();
         }
     }
 }

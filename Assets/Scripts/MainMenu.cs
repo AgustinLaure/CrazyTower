@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -24,22 +23,22 @@ public class MainMenu : MonoBehaviour
 
     private void Start()
     {
-        playButton.onClick.AddListener(OnPlayPressed);
-        htpButton.onClick.AddListener(OnHtpPressed);
-        creditsButton.onClick.AddListener(OnCreditsPressed);
-        exitButton.onClick.AddListener(OnExitPressed);
-        htpBackButton.onClick.AddListener(OnHtpBackPressed);
-        creditsBackButton.onClick.AddListener(OnCreditsBackPressed);
+        playButton.onClick.AddListener(HandlePlayPressed);
+        htpButton.onClick.AddListener(HandleHtpPressed);
+        creditsButton.onClick.AddListener(HandleCreditsPressed);
+        exitButton.onClick.AddListener(HandleExitPressed);
+        htpBackButton.onClick.AddListener(HandleHtpBackPressed);
+        creditsBackButton.onClick.AddListener(HandleCreditsBackPressed);
     }
 
     private void OnDestroy()
     {
-        playButton.onClick.RemoveListener(OnPlayPressed);
-        htpButton.onClick.RemoveListener(OnHtpPressed);
-        creditsButton.onClick.RemoveListener(OnCreditsPressed);
-        exitButton.onClick.RemoveListener(OnExitPressed);
-        htpBackButton.onClick.RemoveListener(OnHtpBackPressed);
-        creditsBackButton.onClick.RemoveListener(OnCreditsBackPressed);
+        playButton.onClick.RemoveListener(HandlePlayPressed);
+        htpButton.onClick.RemoveListener(HandleHtpPressed);
+        creditsButton.onClick.RemoveListener(HandleCreditsPressed);
+        exitButton.onClick.RemoveListener(HandleExitPressed);
+        htpBackButton.onClick.RemoveListener(HandleHtpBackPressed);
+        creditsBackButton.onClick.RemoveListener(HandleCreditsBackPressed);
     }
 
     private void SetCanvasState(CanvasGroup canvas, bool state)
@@ -49,34 +48,34 @@ public class MainMenu : MonoBehaviour
         canvas.blocksRaycasts = state;
     }
 
-    private void OnPlayPressed()
+    private void HandlePlayPressed()
     {
         GameManager.Instance.Play();
     }
 
-    private void OnHtpPressed()
+    private void HandleHtpPressed()
     {
         SetCanvasState(mainMenu, false);
         SetCanvasState(howToPlay, true);
     }
 
-    private void OnCreditsPressed()
+    private void HandleCreditsPressed()
     {
         SetCanvasState(mainMenu, false);
         SetCanvasState(credits, true);
     }
-    private void OnExitPressed()
+    private void HandleExitPressed()
     {
         GameManager.Instance.QuitGame();
     }
 
-    private void OnHtpBackPressed()
+    private void HandleHtpBackPressed()
     {
         SetCanvasState(howToPlay, false);
         SetCanvasState(mainMenu, true);
     }
 
-    private void OnCreditsBackPressed()
+    private void HandleCreditsBackPressed()
     {
         SetCanvasState(credits, false);
         SetCanvasState(mainMenu, true);

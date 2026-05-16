@@ -6,6 +6,9 @@ public class Level : MonoBehaviour
     public event Action<FloorModule> OnCreateFloor;
     public event Action OnTryDropFloor;
 
+    //In meters
+    [SerializeField] private float floorHeightUIMult = 2f;
+
     [SerializeField] private PlayerController playerController;
     [SerializeField] private FloorModule floorModulePrefab;
     [SerializeField] private LevelUI levelUI;
@@ -37,6 +40,7 @@ public class Level : MonoBehaviour
 
         tower.OnAddedFloor += HandleFloorSnap;
         playerController.OnDropFloorRequest += HandleDropFloorRequest;
+        playerController.OnPauseRequest += HandlePauseRequest;
     }
 
     private void Update()
@@ -98,7 +102,7 @@ public class Level : MonoBehaviour
 
         UpdateScore(maxPossibleOffsetX, offsetX);
 
-        levelUI.UpdateHUDData(tower.Height, perfectLandRow, score);
+        levelUI.UpdateHUDData(tower.FloorsCount * floorHeightUIMult, perfectLandRow, score);
     }
 
     private void UpdateScore(float maxPossibleOffsetX, float offsetX)
@@ -120,6 +124,11 @@ public class Level : MonoBehaviour
         OnTryDropFloor?.Invoke();
     }
 
+    private void HandlePauseRequest()
+    {
+        levelUI.TogglePause();
+    }
+
     private void HandleFloorBoundarieCollision()
     {
         ResetLevel();
@@ -129,5 +138,6 @@ public class Level : MonoBehaviour
     {
         tower.OnAddedFloor -= HandleFloorSnap;
         playerController.OnDropFloorRequest -= HandleDropFloorRequest;
+        playerController.OnPauseRequest -= HandlePauseRequest;
     }
 }
