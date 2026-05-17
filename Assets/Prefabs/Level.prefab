@@ -3911,6 +3911,11 @@ MonoBehaviour:
   levelData: {fileID: 11400000, guid: ac399bc0c6dbfc347a0efe6d0732feaa, type: 2}
   floorHeightUIMult: 2
   playerController: {fileID: 6207515698225584915}
+  floorModules:
+  - {fileID: 2163426510150100148, guid: 63262f3f3b22e1c48b350a0f24329a27, type: 3}
+  - {fileID: 7542638597018132305, guid: f6090a153f598e745b70ea8e591da5c9, type: 3}
+  - {fileID: 3877561583333719691, guid: 708ae55bbfd1dbd4493175107509b971, type: 3}
+  - {fileID: 7264826632097747050, guid: a649016fef98c0e4881c3656e140abc8, type: 3}
   floorModulePrefab: {fileID: 4899233029434008918, guid: 1efbcf4ed1bcced4f9d122b9a63f22ac, type: 3}
   levelUI: {fileID: 1825181798318155567}
   crane: {fileID: 2845923305848240092}
@@ -3978,6 +3983,10 @@ PrefabInstance:
     - target: {fileID: 2108413639842179315, guid: 3ee3ac43a653cb640958f75b6cdcb0e0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4972483303110769771, guid: 3ee3ac43a653cb640958f75b6cdcb0e0, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.007
       objectReference: {fileID: 0}
     - target: {fileID: 8415927503505296783, guid: 3ee3ac43a653cb640958f75b6cdcb0e0, type: 3}
       propertyPath: m_Name

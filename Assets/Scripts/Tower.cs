@@ -188,7 +188,7 @@ public class Tower : MonoBehaviour
         floor.transform.rotation = Quaternion.identity;
 
         float newFloorHeight = (floor.GetComponent<BoxCollider>().size.y * floor.transform.localScale.y) / 2f;
-        float lastFloorHeight = (lastFloor.GetComponent<BoxCollider>().size.y * floor.transform.localScale.y) / 2f;
+        float lastFloorHeight = (lastFloor.GetComponent<BoxCollider>().size.y * lastFloor.transform.localScale.y) / 2f;
 
         Vector3 newFloorPos = floor.transform.position;
         Vector3 lastFloorPos = lastFloor.transform.position;

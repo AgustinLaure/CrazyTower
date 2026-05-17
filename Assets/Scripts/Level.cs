@@ -1,7 +1,5 @@
-using System;
-using System.Net.NetworkInformation;
 using UnityEngine;
-using UnityEngine.SocialPlatforms.Impl;
+using System;
 
 public class Level : MonoBehaviour
 {
@@ -21,11 +19,14 @@ public class Level : MonoBehaviour
     private float levelMaxHeight = 1f;
 
     [SerializeField] private PlayerController playerController;
+    [SerializeField] private GameObject[] floorModules;
     [SerializeField] private FloorModule floorModulePrefab;
     [SerializeField] private LevelUI levelUI;
 
 
-    private FloorModule currentFloor;
+    private GameObject currentFloor;
+    private FloorModule currentFloorScript;
+
     private bool isPlaying = true;
     private bool canCreateFloor = true;
     private int perfectLandRow = 0;
@@ -88,13 +89,30 @@ public class Level : MonoBehaviour
     {
         if (currentFloor)
         {
-            currentFloor.OnBoundarieCollision -= HandleFloorBoundarieCollision;
+            currentFloorScript.OnBoundarieCollision -= HandleFloorBoundarieCollision;
         }
 
-        currentFloor = Instantiate(floorModulePrefab);
-        currentFloor.OnBoundarieCollision += HandleFloorBoundarieCollision;
+        int floorModulePrefabIndex;
+
+        if (isLastFloor())
+        {
+            floorModulePrefabIndex = floorModules.Length - 1;
+        }
+        else
+        {
+            floorModulePrefabIndex = UnityEngine.Random.Range(0, floorModules.Length - 1);
+        }
+
+        currentFloor = Instantiate(floorModules[floorModulePrefabIndex]);
+        currentFloorScript = currentFloor.GetComponent<FloorModule>();
+        currentFloorScript.OnBoundarieCollision += HandleFloorBoundarieCollision;
         canCreateFloor = false;
-        OnCreateFloor?.Invoke(currentFloor);
+        OnCreateFloor?.Invoke(currentFloorScript);
+    }
+
+    private bool isLastFloor()
+    {
+        return tower.FloorsCount + 1 >= maxFloors;
     }
 
     private void MoveScenary()
