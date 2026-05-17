@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 48ebe5c8041f1604caeb52309fd3a394, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -349,9 +349,9 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2225377056791814974, guid: f47b0f316479aac4896bf18319d2b33b, type: 3}
-      propertyPath: m_Layer
-      value: 6
+    - target: {fileID: 1654349832990914127, guid: f47b0f316479aac4896bf18319d2b33b, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.6
       objectReference: {fileID: 0}
     - target: {fileID: 2787601809480039415, guid: f47b0f316479aac4896bf18319d2b33b, type: 3}
       propertyPath: m_LocalPosition.x
@@ -393,10 +393,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2796896633761192773, guid: f47b0f316479aac4896bf18319d2b33b, type: 3}
-      propertyPath: m_Layer
-      value: 7
-      objectReference: {fileID: 0}
     - target: {fileID: 3901448865953207713, guid: f47b0f316479aac4896bf18319d2b33b, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -412,10 +408,6 @@ PrefabInstance:
     - target: {fileID: 3901448865953207713, guid: f47b0f316479aac4896bf18319d2b33b, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4597495764892744198, guid: f47b0f316479aac4896bf18319d2b33b, type: 3}
-      propertyPath: m_Layer
-      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 5619308227587369492, guid: f47b0f316479aac4896bf18319d2b33b, type: 3}
       propertyPath: m_AnchorMax.y
@@ -441,10 +433,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6265609999422608690, guid: f47b0f316479aac4896bf18319d2b33b, type: 3}
-      propertyPath: levelData
-      value: 
-      objectReference: {fileID: 11400000, guid: 2da6c1e8b5fdbf244bb8944b7570ec3b, type: 2}
     - target: {fileID: 6372963557267260250, guid: f47b0f316479aac4896bf18319d2b33b, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -468,14 +456,6 @@ PrefabInstance:
     - target: {fileID: 6372963557267260250, guid: f47b0f316479aac4896bf18319d2b33b, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8266012808404868928, guid: f47b0f316479aac4896bf18319d2b33b, type: 3}
-      propertyPath: m_Layer
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 8934696202565981615, guid: f47b0f316479aac4896bf18319d2b33b, type: 3}
-      propertyPath: m_Layer
-      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 9082254072001481054, guid: f47b0f316479aac4896bf18319d2b33b, type: 3}
       propertyPath: m_AnchorMax.y
