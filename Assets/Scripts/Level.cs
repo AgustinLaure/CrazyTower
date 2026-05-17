@@ -53,7 +53,6 @@ public class Level : MonoBehaviour
         playerController.OnDropFloorRequest += HandleDropFloorRequest;
         playerController.OnPauseRequest += HandlePauseRequest;
 
-
         craneAngle = levelData.CraneAngle;
         craneSwingSpeed = levelData.CraneSpeed;
         maxFloors = levelData.MaxFloors;

@@ -31,16 +31,15 @@ public class Crane : MonoBehaviour
     {
         wireTransform = wire.GetComponent<Transform>();
         wireRb = wire.GetComponent<Rigidbody>();
-
-        float pivotWireDistY = Mathf.Abs(pivotTransform.transform.position.y - wireTransform.transform.position.y);
-
-        distanceToLoopingPoint = pendulumAngle * pivotWireDistY / maxPendulumAngle;
     }
 
     private void Start()
     {
         level.OnCreateFloor += HandleCreateFloor;
         level.OnTryDropFloor += HandleTryDropFloor;
+
+        float pivotWireDistY = Mathf.Abs(pivotTransform.transform.position.y - wireTransform.transform.position.y);
+        distanceToLoopingPoint = pendulumAngle * pivotWireDistY / maxPendulumAngle;
     }
 
     private void FixedUpdate()
