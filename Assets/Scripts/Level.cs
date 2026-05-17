@@ -9,6 +9,7 @@ public class Level : MonoBehaviour
     public event Action OnTryDropFloor;
 
     [SerializeField] private LevelScriptable levelData;
+
     private float craneAngle = 60f;
     private float craneSwingSpeed = 2f;
     private int maxFloors = 10;

@@ -18,6 +18,8 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private Slider sfxVolumeSlider;
     [SerializeField] private Slider musicVolumeSlider;
 
+    [SerializeField] private AudioSource menuMusic;
+
     private void Awake()
     {
         SetCanvasState(mainMenu, true);

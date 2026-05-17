@@ -9,7 +9,13 @@ public class Tower : MonoBehaviour
     [SerializeField] private List<FloorModule> floors = new List<FloorModule>();
     [SerializeField] private float perfectMarginX = 0.5f;
     [SerializeField] private float isAddableMarginX = 0.2f;
-    public float FloorsCount { get { return floors.Count;} }
+    [SerializeField] private AudioSource floorMissSound;
+    [SerializeField] private AudioSource floorSnapSound;
+    [SerializeField] private AudioSource perfectSnapSound;
+
+    [SerializeField] private AudioSource beforeBreakingSound;
+    [SerializeField] private AudioSource breakSound;
+    public float FloorsCount { get { return floors.Count; } }
 
     private FloorModule lastFloor { get { return floors[^1]; } }
     private float relativeBobSpeed { get { return Math.Abs(bobStartPos.x - bobEndPos.x) * bobSpeed / objectiveDistance; } }
@@ -92,6 +98,9 @@ public class Tower : MonoBehaviour
         }
 
         floors.Clear();
+
+        breakSound.Play();
+        beforeBreakingSound.Stop();
     }
 
     private void CheckShouldCrumble()
@@ -99,6 +108,11 @@ public class Tower : MonoBehaviour
         Debug.Log(bobIntensity);
 
         shouldCrumble = Math.Abs(bobIntensity) >= maxBobintensityToCrumble;
+
+        if (shouldCrumble)
+        {
+            beforeBreakingSound.Play();
+        }
     }
 
     private float UpdateBobIntensity(Vector3 floorPos)
@@ -162,6 +176,11 @@ public class Tower : MonoBehaviour
         {
             OnAddedFloor?.Invoke(isPerfect, maxPossibleOffsetX, floorOffsetX);
         }
+
+        if (!isPerfect)
+        {
+            floorSnapSound.Play();
+        }
     }
 
     private void FixFloorPos(FloorModule floor)
@@ -205,6 +224,7 @@ public class Tower : MonoBehaviour
         else
         {
             PushUnaddableFloor(floor);
+            floorMissSound.Play();
         }
     }
 
@@ -221,6 +241,8 @@ public class Tower : MonoBehaviour
             Vector3 lastFloorPos = lastFloor.transform.position;
 
             floor.transform.position = new Vector3(lastFloorPos.x, floorPos.y, lastFloorPos.z);
+
+            perfectSnapSound.Play();
         }
     }
 

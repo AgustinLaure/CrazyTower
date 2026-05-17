@@ -5,10 +5,10 @@ public class FloorModule : MonoBehaviour
 {
     [SerializeField] ConfigurableJoint joint;
     [SerializeField] Rigidbody rb;
+    [SerializeField] private AudioSource floorSlamSound;
 
     public event Action<FloorModule> OnFloorModuleCollision;
     public event Action OnBoundarieCollision;
-    private float height;
 
     public void SetSnap(Rigidbody pivot)
     {
@@ -65,15 +65,26 @@ public class FloorModule : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("FloorModule"))
         {
-            if (collision.gameObject.TryGetComponent<FloorModule>(out var floorModule))
-            {
-                OnFloorModuleCollision?.Invoke(floorModule);
-            }
+            FloorModuleCollision(collision);
         }
         else if (collision.gameObject.CompareTag("Boundarie"))
         {
-            OnBoundarieCollision?.Invoke();
+            BoundarieCollision();
         }
+    }
+
+    private void FloorModuleCollision(Collision collision)
+    {
+        if (collision.gameObject.TryGetComponent<FloorModule>(out var floorModule))
+        {
+            OnFloorModuleCollision?.Invoke(floorModule);
+        }
+    }
+
+    private void BoundarieCollision()
+    {
+        OnBoundarieCollision?.Invoke();
+        floorSlamSound.Play();
     }
 
     public Vector3 ColliderGlobalSize { get { return GetComponent<BoxCollider>().size * transform.localScale.y; } }

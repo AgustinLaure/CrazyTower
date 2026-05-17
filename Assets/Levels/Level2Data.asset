@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d1f9d7feaed5774b8c7133982d39aa3, type: 3}
   m_Name: Level2Data
   m_EditorClassIdentifier: Assembly-CSharp::Level1
-  <MaxFloors>k__BackingField: 10
+  <MaxFloors>k__BackingField: 35
   <CraneAngle>k__BackingField: 60
-  <CraneSpeed>k__BackingField: 2
+  <CraneSpeed>k__BackingField: 3.5
   <MaxScorePerLand>k__BackingField: 100

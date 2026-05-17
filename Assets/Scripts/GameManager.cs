@@ -6,6 +6,7 @@ public class GameManager : MonoSingleton<GameManager>
 {
     [SerializeField] private AudioMixer audioMixer;
     [SerializeField] private AudioSource buttonPressedSound;
+    [SerializeField] private AudioSource gameplayMusic;
 
     private const float initialMasterVolume = 0f;
     private const float initialSfxVolume = -30f;
@@ -81,6 +82,7 @@ public class GameManager : MonoSingleton<GameManager>
     public void Play()
     {
         SceneManager.LoadScene(levels[currentLevel]);
+        gameplayMusic.Play();
     }
 
     public void QuitGame()
@@ -133,6 +135,7 @@ public class GameManager : MonoSingleton<GameManager>
     public void MoveToMainMenu()
     {
         SceneManager.LoadScene("MainMenu");
+        gameplayMusic.Stop();
     }
 
     protected override void OnDestroyed()
