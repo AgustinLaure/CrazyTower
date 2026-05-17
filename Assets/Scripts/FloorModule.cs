@@ -6,6 +6,7 @@ public class FloorModule : MonoBehaviour
     [SerializeField] ConfigurableJoint joint;
     [SerializeField] Rigidbody rb;
     [SerializeField] private AudioSource floorSlamSound;
+    private bool isFreeFalling = false;
 
     public event Action<FloorModule> OnFloorModuleCollision;
     public event Action OnBoundarieCollision;
@@ -54,6 +55,8 @@ public class FloorModule : MonoBehaviour
         joint.angularZMotion = ConfigurableJointMotion.Free;
 
         rb.freezeRotation = false;
+
+        isFreeFalling = true;
     }
 
     public bool IsJointConnected()
@@ -87,7 +90,11 @@ public class FloorModule : MonoBehaviour
         floorSlamSound.Play();
     }
 
+    public Rigidbody RigidBody { get { return rb; } private set { } }
+
     public Vector3 ColliderGlobalSize { get { return GetComponent<BoxCollider>().size * transform.localScale.y; } }
 
     public Vector3 ColliderGlobalExtents { get { return (GetComponent<BoxCollider>().size * transform.localScale.y) / 2; } }
+
+    public bool IsFreeFalling { get { return isFreeFalling; } private set { } }
 }

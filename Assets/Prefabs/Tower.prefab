@@ -94,6 +94,7 @@ MonoBehaviour:
   bobSpeed: 1
   minFloorsToBob: 1
   maxBobintensityToCrumble: 0.6
+  pushForce: 2
 --- !u!82 &8273556866057594634
 AudioSource:
   m_ObjectHideFlags: 0

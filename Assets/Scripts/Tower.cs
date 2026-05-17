@@ -30,6 +30,7 @@ public class Tower : MonoBehaviour
     [SerializeField] private float minFloorsToBob = 1f;
 
     [SerializeField] private float maxBobintensityToCrumble = 0.6f;
+    [SerializeField] private float pushForce = 2f;
 
     private Vector3 bobStartPos;
     private Vector3 bobEndPos;
@@ -209,7 +210,18 @@ public class Tower : MonoBehaviour
 
     private void PushUnaddableFloor(FloorModule floor)
     {
-        floor.SetFalling();
+        if (!floor.IsFreeFalling)
+        {
+            floor.SetFalling();
+
+            float relativePosX = 0f;
+
+            if (floor.transform.position.y - floor.ColliderGlobalExtents.y < lastFloor.transform.position.y + lastFloor.ColliderGlobalExtents.y)
+            {
+                relativePosX = floor.transform.position.x - lastFloor.transform.position.x;
+                floor.RigidBody.AddForce(new Vector3(relativePosX * pushForce, 0f, 0f), ForceMode.VelocityChange);
+            }
+        }
     }
 
     private void HandleFloorCollision(FloorModule floor)
