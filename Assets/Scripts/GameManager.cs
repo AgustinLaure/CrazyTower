@@ -12,7 +12,7 @@ public class GameManager : MonoSingleton<GameManager>
     private const float initialSfxVolume = -30f;
     private const float initialMusicVolume = 0f;
 
-    private string[] levels = { "Level01", "Level02" };
+    private string[] levels = { "Level01", "Level02", "Level03", "Level04" };
     private int currentLevel = 0;
     private bool isPaused = false;
 
