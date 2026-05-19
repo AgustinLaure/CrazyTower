@@ -27,7 +27,7 @@ Material:
     m_Floats:
     - _OutlineWidth: 0.265
     - _ScaleRatioA: 0.9
-    - _ScaleRatioC: 0.51255
+    - _ScaleRatioC: 0.256275
     - _UnderlayOffsetX: -0.523
     m_Colors:
     - _FaceColor: {r: 1, g: 0.97639906, b: 0.95660377, a: 1}
