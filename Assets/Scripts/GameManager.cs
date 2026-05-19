@@ -9,7 +9,7 @@ public class GameManager : MonoSingleton<GameManager>
     [SerializeField] private AudioSource gameplayMusic;
 
     private const float initialMasterVolume = 0f;
-    private const float initialSfxVolume = -30f;
+    private const float initialSfxVolume = 0f;
     private const float initialMusicVolume = 0f;
 
     private string[] levels = { "Level01", "Level02", "Level03", "Level04" };
@@ -19,7 +19,7 @@ public class GameManager : MonoSingleton<GameManager>
     private string wasGameOpenedBefore = "WasGameOpenedBefore";
     private string masterVolumeKey = "MasterVolume";
     private string sfxVolumeKey = "SfxVolume";
-    private string muiscVolumeKey = "MusicVolume";
+    private string musicVolumeKey = "MusicVolume";
 
     private float masterVolume;
     private float sfxVolume;
@@ -29,7 +29,7 @@ public class GameManager : MonoSingleton<GameManager>
 
     public float SfxVolume { get { return sfxVolume; } set { sfxVolume = value; audioMixer.SetFloat(sfxVolumeKey, sfxVolume); } }
 
-    public float MusicVolume { get { return musicVolume; } set { musicVolume = value; audioMixer.SetFloat(muiscVolumeKey, musicVolume); } }
+    public float MusicVolume { get { return musicVolume; } set { musicVolume = value; audioMixer.SetFloat(musicVolumeKey, musicVolume); } }
 
     public bool IsPaused { get { return isPaused; } private set { } }
 
@@ -45,7 +45,7 @@ public class GameManager : MonoSingleton<GameManager>
         {
             masterVolume = PlayerPrefs.GetFloat(masterVolumeKey);
             sfxVolume = PlayerPrefs.GetFloat(sfxVolumeKey);
-            musicVolume = PlayerPrefs.GetFloat(muiscVolumeKey);
+            musicVolume = PlayerPrefs.GetFloat(musicVolumeKey);
         }
         else
         {
@@ -53,11 +53,14 @@ public class GameManager : MonoSingleton<GameManager>
             sfxVolume = initialSfxVolume;
             musicVolume = initialMusicVolume;
 
-            SaveConfig();
-
             PlayerPrefs.SetInt(wasGameOpenedBefore, 1);
-        }
 
+            SaveConfig();
+        }
+    }
+
+    private void Start()
+    {
         UpdateAudioMixerValues();
     }
 
@@ -114,14 +117,17 @@ public class GameManager : MonoSingleton<GameManager>
 
     private void UpdateAudioMixerValues()
     {
-        PlayerPrefs.SetFloat(masterVolumeKey, masterVolume);
-        PlayerPrefs.SetFloat(sfxVolumeKey, sfxVolume);
-        PlayerPrefs.SetFloat(muiscVolumeKey, musicVolume);
+        audioMixer.SetFloat(masterVolumeKey, masterVolume);
+        audioMixer.SetFloat(sfxVolumeKey, sfxVolume);
+        audioMixer.SetFloat(musicVolumeKey, musicVolume);
     }
 
     private void SaveConfig()
     {
-        UpdateAudioMixerValues();
+        PlayerPrefs.SetFloat(masterVolumeKey, masterVolume);
+        PlayerPrefs.SetFloat(sfxVolumeKey, sfxVolume);
+        PlayerPrefs.SetFloat(musicVolumeKey, musicVolume);
+
         PlayerPrefs.Save();
     }
 

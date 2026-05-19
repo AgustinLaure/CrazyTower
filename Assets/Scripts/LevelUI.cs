@@ -19,10 +19,14 @@ public class LevelUI : MonoBehaviour
     [SerializeField] private CanvasGroup hudCanvasGroup;
     [SerializeField] private CanvasGroup pauseCanvasGroup;
     [SerializeField] private CanvasGroup endGameCanvasGroup;
-    [SerializeField] private CanvasGroup nextLevelCanvasGroup;
-    [SerializeField] private CanvasGroup prevLevelCanvasGroup;
+    [SerializeField] private CanvasGroup endGamePrevLevelCanvasGroup;
+    [SerializeField] private CanvasGroup endGameNextLevelCanvasGroup;
+    [SerializeField] private CanvasGroup pausePrevLevelCanvasGroup;
+    [SerializeField] private CanvasGroup pauseNextLevelCanvasGroup;
 
     [SerializeField] private Button resumeButton;
+    [SerializeField] private Button pausePrevLevelButton;
+    [SerializeField] private Button pauseNextLevelButton;
     [SerializeField] private Button menuButton;
 
     [SerializeField] private Button endGameMenuButton;
@@ -42,6 +46,8 @@ public class LevelUI : MonoBehaviour
         prevLevelButton.onClick.AddListener(HandlePrevLevelPressed);
         nextLevelButton.onClick.AddListener(HandleNextLevelPressed);
         retryButton.onClick.AddListener(HandleRetryButtonPressed);
+        pausePrevLevelButton.onClick.AddListener(HandlePrevLevelPressed);
+        pauseNextLevelButton.onClick.AddListener(HandleNextLevelPressed);
     }
 
     private void Start()
@@ -53,6 +59,9 @@ public class LevelUI : MonoBehaviour
         endGameScoreText.text = "Score: 0";
         endGameTotalLandedText.text = $"Tower height: 0 / {maxTowerHeight}";
         endGameBestScoreText.text = $"Best Score: {GameManager.Instance.GetBestScore()}";
+
+        SetButtonActive(pausePrevLevelCanvasGroup, !GameManager.Instance.IsAtFirstLevel());
+        SetButtonActive(pauseNextLevelCanvasGroup, !GameManager.Instance.IsAtLastLevel());
     }
 
     public void UpdateHUDData(float newTowerHeight, int newPerfectRow, int newScore)
@@ -90,12 +99,12 @@ public class LevelUI : MonoBehaviour
 
         if (GameManager.Instance.IsAtLastLevel())
         {
-            SetButtonActive(nextLevelCanvasGroup, false);
+            SetButtonActive(endGameNextLevelCanvasGroup, false);
         }
 
         if (GameManager.Instance.IsAtFirstLevel())
         {
-            SetButtonActive(prevLevelCanvasGroup, false);
+            SetButtonActive(endGamePrevLevelCanvasGroup, false);
         }
 
         GameManager.Instance.TogglePause();
@@ -148,6 +157,20 @@ public class LevelUI : MonoBehaviour
         GameManager.Instance.ResetLevel();
     }
 
+    private void HandlePausePrevButtonPressed()
+    {
+        GameManager.Instance.TogglePause();
+        GameManager.Instance.ButtonPressedSound.Play();
+        GameManager.Instance.ChangePrevLevel();
+    }
+
+    private void HandlePauseNextButtonPressed()
+    {
+        GameManager.Instance.TogglePause();
+        GameManager.Instance.ButtonPressedSound.Play();
+        GameManager.Instance.ChangeNextLevel();
+    }
+
     private void OnDestroy()
     {
         resumeButton.onClick.RemoveListener(HandleResumeButtonPressed);
@@ -156,5 +179,7 @@ public class LevelUI : MonoBehaviour
         prevLevelButton.onClick.RemoveListener(HandlePrevLevelPressed);
         nextLevelButton.onClick.RemoveListener(HandleNextLevelPressed);
         retryButton.onClick.RemoveListener(HandleRetryButtonPressed);
+        pausePrevLevelButton.onClick.RemoveListener(HandlePrevLevelPressed);
+        pauseNextLevelButton.onClick.RemoveListener(HandleNextLevelPressed);
     }
 }
