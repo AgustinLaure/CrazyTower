@@ -1008,7 +1008,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 54, y: 144}
+  m_AnchoredPosition: {x: 54, y: 169}
   m_SizeDelta: {x: 745.79004, y: 50}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &622672439
@@ -1034,7 +1034,7 @@ MonoBehaviour:
   m_text: "Programmer: Agust\xEDn Laure"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: 0bb434104a4fc1f4c8b1f7179d961f9a, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2886,7 +2886,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -325}
+  m_AnchoredPosition: {x: 0, y: -441}
   m_SizeDelta: {x: 312.3999, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1319169987
@@ -3698,8 +3698,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 54, y: -94}
-  m_SizeDelta: {x: 1718.3, y: 50}
+  m_AnchoredPosition: {x: 54, y: -100}
+  m_SizeDelta: {x: 1880, y: 50}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &1579233149
 MonoBehaviour:
@@ -3721,13 +3721,16 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Assets from: -kenney, -DustyRoom (Unity Assetstore), -Epic Sounds and
-    FX (Unity Assetstore), -SLD Audio (Unity Assetstore), -Plastic Sound Design (Unity
-    Assetstore), -Quixel Megascans (Fab), -Pretorius Lab (Unity Assetstore), -ithappy
-    (Unity Assetstore), -LowlyPoly (Unity Assetstore),'
+  m_text: "                                                                Assets
+    from: \n\n-kenney                                                                              
+    \n-DustyRoom (Unity Assetstore)                                        -LowlyPoly
+    (Unity Assetstore)\n-Epic Sounds and FX (Unity Assetstore)                         
+    -Quixel Megascans (Fab)\n-SLD Audio (Unity Assetstore)                                         
+    -Pretorius Lab (Unity Assetstore)\n-Plastic Sound Design (Unity Assetstore)                       
+    \n\n\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: 0bb434104a4fc1f4c8b1f7179d961f9a, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
