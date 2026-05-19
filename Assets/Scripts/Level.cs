@@ -155,6 +155,11 @@ public class Level : MonoBehaviour
     private void EndLevel(bool hasWon)
     {
         levelUI.ShowGameEndedScreen(hasWon);
+
+        if (hasWon && GameManager.Instance.GetBestScore() < score)
+        {
+            GameManager.Instance.SaveScore(score);
+        }
     }
 
     private void UpdateScore(float maxPossibleOffsetX, float offsetX)

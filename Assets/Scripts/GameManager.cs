@@ -35,10 +35,12 @@ public class GameManager : MonoSingleton<GameManager>
 
     public AudioSource ButtonPressedSound { get { return buttonPressedSound; } private set { } }
 
+    public int CurrentLevelIndex { get { return currentLevel; } private set { } }
+
     protected override void OnAwaken()
     {
         currentLevel = GetCurrentSceneIndex();
-        
+
         if (PlayerPrefs.HasKey(wasGameOpenedBefore))
         {
             masterVolume = PlayerPrefs.GetFloat(masterVolumeKey);
@@ -59,6 +61,17 @@ public class GameManager : MonoSingleton<GameManager>
         UpdateAudioMixerValues();
     }
 
+    public float GetBestScore()
+    {
+        return PlayerPrefs.GetFloat(levels[currentLevel]);
+    }
+
+    public void SaveScore(int score)
+    {
+        PlayerPrefs.SetFloat(levels[currentLevel], score);
+        SaveConfig();
+    }
+
     private int GetCurrentSceneIndex()
     {
         string currentLevelName = SceneManager.GetActiveScene().name;
@@ -74,6 +87,10 @@ public class GameManager : MonoSingleton<GameManager>
         return 0;
     }
 
+    public bool IsAtFirstLevel()
+    {
+        return currentLevel == 0;
+    }
     public bool IsAtLastLevel()
     {
         return currentLevel + 1 >= levels.Length;
@@ -120,6 +137,19 @@ public class GameManager : MonoSingleton<GameManager>
         {
             SceneManager.LoadScene(levels[currentLevel + 1]);
             currentLevel++;
+        }
+        else
+        {
+            Debug.LogError("Tried changing to next level at last level");
+        }
+    }
+
+    public void ChangePrevLevel()
+    {
+        if (!IsAtFirstLevel())
+        {
+            SceneManager.LoadScene(levels[currentLevel - 1]);
+            currentLevel--;
         }
         else
         {

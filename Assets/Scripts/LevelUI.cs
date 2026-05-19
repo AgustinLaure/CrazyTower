@@ -10,18 +10,23 @@ public class LevelUI : MonoBehaviour
     [SerializeField] private TMPro.TextMeshProUGUI perfectRowText;
     [SerializeField] private TMPro.TextMeshProUGUI hudScoreText;
 
-    [SerializeField] private TMPro.TextMeshProUGUI endGameTitle;
+    [SerializeField] private TMPro.TextMeshProUGUI levelTitleText;
+    [SerializeField] private TMPro.TextMeshProUGUI endGameTitleText;
     [SerializeField] private TMPro.TextMeshProUGUI endGameScoreText;
     [SerializeField] private TMPro.TextMeshProUGUI endGameTotalLandedText;
+    [SerializeField] private TMPro.TextMeshProUGUI endGameBestScoreText;
 
+    [SerializeField] private CanvasGroup hudCanvasGroup;
     [SerializeField] private CanvasGroup pauseCanvasGroup;
     [SerializeField] private CanvasGroup endGameCanvasGroup;
     [SerializeField] private CanvasGroup nextLevelCanvasGroup;
+    [SerializeField] private CanvasGroup prevLevelCanvasGroup;
 
     [SerializeField] private Button resumeButton;
     [SerializeField] private Button menuButton;
 
     [SerializeField] private Button endGameMenuButton;
+    [SerializeField] private Button prevLevelButton;
     [SerializeField] private Button nextLevelButton;
     [SerializeField] private Button retryButton;
 
@@ -34,17 +39,20 @@ public class LevelUI : MonoBehaviour
         resumeButton.onClick.AddListener(HandleResumeButtonPressed);
         menuButton.onClick.AddListener(HandleMenuButtonPressed);
         endGameMenuButton.onClick.AddListener(HandleMenuButtonPressed);
+        prevLevelButton.onClick.AddListener(HandlePrevLevelPressed);
         nextLevelButton.onClick.AddListener(HandleNextLevelPressed);
         retryButton.onClick.AddListener(HandleRetryButtonPressed);
     }
 
     private void Start()
     {
+        levelTitleText.text = $"Level {GameManager.Instance.CurrentLevelIndex+1}";
         hudTotalLandedText.text = $"Tower height: 2 / {maxTowerHeight.ToString("F0")}";
         hudScoreText.text = $"Score: 0";
 
         endGameScoreText.text = "Score: 0";
         endGameTotalLandedText.text = $"Tower height: 0 / {maxTowerHeight}";
+        endGameBestScoreText.text = $"Best Score: {GameManager.Instance.GetBestScore()}";
     }
 
     public void UpdateHUDData(float newTowerHeight, int newPerfectRow, int newScore)
@@ -78,14 +86,20 @@ public class LevelUI : MonoBehaviour
 
     public void ShowGameEndedScreen(bool hasWon)
     {
-        endGameTitle.text = hasWon ? "YOU WON" : "YOU LOST";
+        endGameTitleText.text = hasWon ? "YOU WON" : "YOU LOST";
 
-        if (GameManager.Instance.IsAtLastLevel() || !hasWon)
+        if (GameManager.Instance.IsAtLastLevel())
         {
             SetButtonActive(nextLevelCanvasGroup, false);
         }
 
+        if (GameManager.Instance.IsAtFirstLevel())
+        {
+            SetButtonActive(prevLevelCanvasGroup, false);
+        }
+
         GameManager.Instance.TogglePause();
+        SetCanvasState(hudCanvasGroup, false);
         SetCanvasState(endGameCanvasGroup, true);
     }
 
@@ -113,6 +127,13 @@ public class LevelUI : MonoBehaviour
         GameManager.Instance.ButtonPressedSound.Play();
     }
 
+    private void HandlePrevLevelPressed()
+    {
+        GameManager.Instance.TogglePause();
+        GameManager.Instance.ButtonPressedSound.Play();
+        GameManager.Instance.ChangePrevLevel();
+    }
+
     private void HandleNextLevelPressed()
     {
         GameManager.Instance.TogglePause();
@@ -132,6 +153,7 @@ public class LevelUI : MonoBehaviour
         resumeButton.onClick.RemoveListener(HandleResumeButtonPressed);
         resumeButton.onClick.RemoveListener(HandleMenuButtonPressed);
         endGameMenuButton.onClick.RemoveListener(HandleMenuButtonPressed);
+        prevLevelButton.onClick.RemoveListener(HandlePrevLevelPressed);
         nextLevelButton.onClick.RemoveListener(HandleNextLevelPressed);
         retryButton.onClick.RemoveListener(HandleRetryButtonPressed);
     }
